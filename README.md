@@ -116,6 +116,8 @@ If I click on the package file, it opens in Xcode and there I can just easily se
 
 ![""](/images/aoc1.png)
 
+So the environment is now set up 😀
+
 ## Sources
 
 Swift Package Manager
