@@ -3,20 +3,23 @@
 
 ## Preparation of the environment
 
-Last year I did the challenges in the Xcode Swift playgrounds. I did encounter some problems though. Playgrounds are much slower in executing the code on their main page, they are doing quite a few checks in the background and it is fun to use them for try out some code, however they do not offer the true Swift speed of execution.
-This year I wanna try something different with the Swift package manager. This allows me to have an executable package and I can pack all my files in it. Also I could eventually make a library with the most used function and import it separately. Sounds like something new and exciting for me, so I can learn more about packages as well
+Last year I did the challenges in the Xcode Swift playgrounds.  
+I did encounter some problems though. Playgrounds are much slower in executing the code on their main page, because they are doing quite a few checks in the background and while it is fun to use them for try out some code, they do not offer the true Swift speed.  
+This year I wanna try something different with the Swift package manager. This allows me to have an executable package and to pack all my files in it.  
+Also I could eventually make a library with the most used functions and import it separately.  
+Sounds like something new and exciting for me, so I can learn more about packages as well!  
 
-The way to do it is to create a new directory, call it like `AdventOfCode2020` and `cd` to it:
+The way to do it is to create a new directory, call it like `AdventOfCode2020` and `cd` to it:  
 ```bash
 cd /Volumes/iOS/AdventOfCode2020
 ```
-Next you need to init the package:
+Next you need to init the package:  
 
 ```bash
 swift package init --type executable
 ```
 
-This will create the necessary files, your folder structure will look like this:
+This will create the necessary files, your folder structure will look like this:  
 
 ```
 ➜ tree
@@ -46,9 +49,7 @@ swift run AdventOfCode2020
 // Hello, world!
 ```
 This is the output of our executable because in our package we have a `main.swift` file. This file is special, it is the only one file that is called automatically by the system and executed first. Also it allows to put commands on the top level!
-this are the contents of the `main.swift` file!
-
-`print("Hello, world!")`
+this are the contents of the `main.swift` file, a famous one liner: `print("Hello, world!")`
 
 When I do `run AdventOfCode2020` I execute the main swift file in the `AdventOfCode2020` folder (under sources).
 I will create a `Day1` folder contawining another main.swift file to be executed like:
