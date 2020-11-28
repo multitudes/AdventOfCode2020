@@ -15,14 +15,31 @@ Next you need to init the package:
 ```bash
 swift package init --type executable
 ```
-This will create the necessary files:
 
+This will create the necessary files, your folder structure will look like this:
 
+```
+➜ tree
+.
+├── Package.swift
+├── README.md
+├── Sources
+│   └── AdventOfCode2020
+│       └── main.swift
+└── Tests
+    ├── AdventOfCode2020Tests
+    │   ├── AdventOfCode2020Tests.swift
+    │   └── XCTestManifests.swift
+    └── LinuxMain.swift
 
+4 directories, 6 files
+```
+Now build:
 
 ```bash
 swift build
 ```
+And run!
 
 ```bash
 swift run AdventOfCode2020
