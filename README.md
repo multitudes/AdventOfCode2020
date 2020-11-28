@@ -114,6 +114,7 @@ let package = Package(
 ```
 If I click on the package file, it opens in Xcode and there I can just easily select which target I want to run, as you see in the top left corner.
 
+![""](/images/aoc1.png)
 
 ## Sources
 
