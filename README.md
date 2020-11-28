@@ -121,5 +121,5 @@ So the environment is now set up 😀
 
 ## Sources
 
-Swift Package Manager
-Five star blog
+Swift Package Manager  
+Five stars blog : [fivestars.blog](https://fivestars.blog/code/ultimate-guide-swift-executables.html)
