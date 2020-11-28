@@ -101,16 +101,19 @@ let package = Package(
         .testTarget(
             name: "AdventOfCode2020Tests",
             dependencies: ["AdventOfCode2020"]),
-		.target(
-			name: "Day1",
-			dependencies: []),
-		.testTarget(
-			name: "Day1Tests",
-			dependencies: ["AdventOfCode2020"]),
+	.target(
+		name: "Day1",
+		dependencies: []),
+	.testTarget(
+		name: "Day1Tests",
+		dependencies: ["AdventOfCode2020"]),
     ]
 )
 
+
 ```
+If I click on the package file, it opens in Xcode and there I can just easily select which target I want to run, as you see in the top left corner.
+
 
 ## Sources
 
