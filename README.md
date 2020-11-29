@@ -24,4 +24,4 @@ You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/prepa
 ## Progress
 | Day  | Part One | Part Two | 
 |---|:---:|:---:|
-| ✔ [Day 1: ]()|🤔||
+|  [Day 1: ]()|||
