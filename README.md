@@ -10,7 +10,7 @@
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
 
 
-## Preparation of the environment
+## Preparing the environment
 
 Last year I did the challenges in the Xcode Swift playgrounds.  
 I did encounter some problems though. Playgrounds are much slower in executing the code on their main page, because they are doing quite a few checks in the background and while it is fun to use them for try out some code, they do not offer the true Swift speed.  
