@@ -77,6 +77,14 @@ struct Day1: ParsableCommand {
 Hello.main()
 ```
 
+I need to import the Argument Parser package and add it as a dependency
+
+Now I run the target I get correctly a prompt, saying that my usage is not correct and I am expecting an Int! 
+
+!["Run a target in XCode"](/images/aoc2.png)
+
+I will add this clicking on my target and add it in "
+
 ### Creating folders for each day
 It will be nice to just be free to execute the code for any day passing the arguments so I will create a `Day1` folder containing another main.swift file to be executed like:
 
@@ -143,7 +151,7 @@ let package = Package(
 ```
 If I click on the package file, it opens in Xcode and there I can just easily select which target I want to run, as you see in the top left corner.
 
-![""](/images/aoc1.png)
+!["Run a target in XCode"](/images/aoc1.png)
 
 So the environment is now set up 😀
 
