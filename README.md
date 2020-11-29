@@ -156,7 +156,6 @@ I will add this clicking on my target and add it in `arguments`
 
 !["Run a target in XCode"](/images/aoc3.png)  
 !["Run a target in XCode"](/images/aoc4.png)  
-!["Run a target in XCode"](/images/aoc5.png)
 
 
 So the environment is now set up 😀
