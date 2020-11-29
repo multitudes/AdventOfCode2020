@@ -7,7 +7,7 @@ struct Day1: ParsableCommand {
   var input: Int
 
   func run() throws {
-	print("Running Day1 Challenge with input \(input)")
+	print("Running Day1 Challenge with input \(input) \n")
   }
 }
 
