@@ -52,11 +52,38 @@ This is the output of our executable because in our package we have a `main.swif
 this are the contents of the `main.swift` file, a famous one liner: `print("Hello, world!")`
 
 When I do `run AdventOfCode2020` I execute the main swift file in the `AdventOfCode2020` folder (under sources).
-I will create a `Day1` folder contawining another main.swift file to be executed like:
+
+And I can do testing as well with `swift tests`
+
+My script can receive arguments as input. 
+
+### Parse Input Arguments
+
+```swift
+import ArgumentParser
+
+// Define our parser.
+struct Day1: ParsableCommand {
+  // Declare expected launch argument(s).
+  @Option(help: "Specify an Integer.")
+  var input: Int
+
+  func run() throws {
+	print("Running Day1 Challenge with input \(input)")
+  }
+}
+
+// Run the parser.
+Hello.main()
+```
+
+### Creating folders for each day
+It will be nice to just be free to execute the code for any day passing the arguments so I will create a `Day1` folder containing another main.swift file to be executed like:
 
 `swift run Day1`
 
-My tree will look like this now:
+My tree will look like this now:  
+
 ```bash
 ➜ tree
 .
@@ -81,6 +108,7 @@ My tree will look like this now:
 ```
 
 And to allow this I will need to modify the Package manifest file:
+
 ```swift
 // swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
