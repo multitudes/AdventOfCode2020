@@ -17,3 +17,11 @@ I did encounter some problems though. Playgrounds are much slower in executing t
 This year I wanna try something different with the Swift package manager. This allows me to have an executable package and to pack all my files in it.  
 
 You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)
+
+## Advent of Code 2019 Story
+
+
+## Progress
+| Day  | Part One | Part Two | 
+|---|:---:|:---:|
+| ✔ [Day 1: ]()|🤔||
