@@ -149,5 +149,6 @@ So the environment is now set up 😀
 
 ## Sources
 
-Swift Package Manager  
-Five stars blog : [fivestars.blog](https://fivestars.blog/code/ultimate-guide-swift-executables.html)
+Swift Package Manager: [https://docs.swift.org/package-manager/](https://docs.swift.org/package-manager/PackageDescription/PackageDescription.html)  
+Five stars blog : [fivestars.blog](https://fivestars.blog/code/ultimate-guide-swift-executables.html)  
+Argument Parser: [https://github.com/apple/swift-argument-parser/](https://github.com/apple/swift-argument-parser/blob/main/Documentation/01%20Getting%20Started.md)
