@@ -6,8 +6,6 @@ import PackageDescription
 let package = Package(
     name: "AdventOfCode2020",
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
 		.package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.0"),
     ],
     targets: [
@@ -15,13 +13,13 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "AdventOfCode2020",
-            dependencies: []),
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]),
         .testTarget(
             name: "AdventOfCode2020Tests",
             dependencies: ["AdventOfCode2020"]),
 		.target(
 			name: "Day1",
-			dependencies: []),
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]),
 		.testTarget(
 			name: "Day1Tests",
 			dependencies: ["AdventOfCode2020"]),

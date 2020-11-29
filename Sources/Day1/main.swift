@@ -12,10 +12,5 @@ struct Day1: ParsableCommand {
 }
 
 // Run the parser.
-Hello.main()
+Day1.main()
 
-
-
-
-
-//print("Hello, world!")
