@@ -13,7 +13,7 @@
 ## Preparing the environment
 
 Last year I did the challenges in the Xcode Swift playgrounds.  
-I did encounter some problems though. Playgrounds are much slower in executing the code on their main page, because they are doing quite a few checks in the background and while it is fun to use them for try out some code, they do not offer the true Swift speed.  
+
 This year I wanna try something different with the Swift package manager. This allows me to have an executable package and to pack all my files in it.  
 
 You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)
