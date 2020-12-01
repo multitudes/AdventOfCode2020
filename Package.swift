@@ -17,7 +17,11 @@ let package = Package(
             dependencies: ["AdventOfCode2020"]),
 		.target(
 			name: "Day1",
-			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]),
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+			resources: [
+							.process("Resources"),
+						]
+		),
 		.testTarget(
 			name: "Day1Tests",
 			dependencies: ["AdventOfCode2020"]),
