@@ -9,14 +9,14 @@ struct Day1: ParsableCommand {
 
 	func run() throws {
 		print("Running Day1 Challenge with input from the website\n")
-		dayOneFirst()
+		let input: [Int] = getInputArraySorted()
+		dayOneFirstChallenge(input: input)
+		dayOneSecondChallenge(input: input)
 	}
 }
 
-
-func dayOneFirst() {
+func getInputArraySorted() -> [Int] {
 	var input: [Int] = []
-
 	do {
 		let fileUrl = Bundle.module.url(forResource: "input", withExtension: "txt")!
 
@@ -26,28 +26,31 @@ func dayOneFirst() {
 	} catch {
 		print(error.localizedDescription)
 	}
-	let expensesSorted = input.sorted()
-	var j = expensesSorted.count - 1
+	return input.sorted()
+}
+
+func dayOneFirstChallenge(input: [Int] ) {
+	var j = input.count - 1
 	var i = 0
 	var solution = 0
-	while expensesSorted[i] + expensesSorted[j] != 2020 {
-		if expensesSorted[i] + expensesSorted[j] < 2020 {
+	while input[i] + input[j] != 2020 {
+		if input[i] + input[j] < 2020 {
 			i += 1
 			continue
 		}
-		if expensesSorted[i] + expensesSorted[j] > 2020 {
+		if input[i] + input[j] > 2020 {
 			j -= 1
 			continue
 		}
 		if j <= i {break}
 	}
-	solution = expensesSorted[i] * expensesSorted[j]
-
+	solution = input[i] * input[j]
 	print("The solution for the first challenge Day one is: ", solution, "\n")
-
-
 }
 
+func dayOneSecondChallenge(input: [Int] ) {
+
+}
 
 // Run the parser.
 Day1.main()
