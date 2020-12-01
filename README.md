@@ -12,7 +12,7 @@
 
 ## Preparing the environment
 
-Last year I did the challenges in the Xcode Swift playgrounds.  
+[Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
 
 This year I wanna try something different with the Swift package manager. This allows me to have an executable package and to pack all my files in it.  
 
