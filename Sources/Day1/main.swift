@@ -50,6 +50,40 @@ func dayOneFirstChallenge(input: [Int] ) {
 
 func dayOneSecondChallenge(input: [Int] ) {
 
+	var j = input.count - 1
+	var i = 0
+	var k = 1
+	let limit = 2020
+	var solution = 0
+
+	outerloop: while input[i] + input[j] + input[k] != limit {
+
+		if j <= i { break }
+		if input[i] + input[j] < limit {
+			let sumFirstTwoExpenses = input[i] + input[j]
+
+			if k == i { k += 1 } else { k = 0 }
+			while true {
+				if k >= input.count - 1 { break }
+				if sumFirstTwoExpenses + input[k] == limit {
+					solution = input[i] * input[j] * input[k]
+					print("The solution for the second challenge Day one is: ", solution, "\n")
+					break outerloop
+				}
+				if sumFirstTwoExpenses + input[k] < limit {
+					k += 1
+					continue
+				}
+				if sumFirstTwoExpenses + input[k] > limit {
+					k = 0; j -= 1; i -= 1
+					break
+				}
+			}
+			i += 1
+			continue
+		}
+		j -= 1
+	}
 }
 
 // Run the parser.
