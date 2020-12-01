@@ -8,10 +8,19 @@ struct Day1: ParsableCommand {
 	//  var input: Int
 
 	func run() throws {
+		let startTime = CFAbsoluteTimeGetCurrent()
 		print("Running Day1 Challenge with input from the website\n")
 		let input: [Int] = getInputArraySorted()
 		dayOneFirstChallenge(input: input)
+		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+
+
+		let startTime2 = CFAbsoluteTimeGetCurrent()
 		dayOneSecondChallenge(input: input)
+		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
+
+		print("\n\nTime elapsed for day one challenge 1 is: \(timeElapsed) s.")
+		print("Time elapsed for day one challenge 2 is: \(timeElapsed2) s.\n")
 	}
 }
 
@@ -45,7 +54,7 @@ func dayOneFirstChallenge(input: [Int] ) {
 		if j <= i {break}
 	}
 	solution = input[i] * input[j]
-	print("The solution for the first challenge Day one is: ", solution, "\n")
+	print("The solution for the first challenge is: ", solution, "\n")
 }
 
 func dayOneSecondChallenge(input: [Int] ) {
@@ -67,7 +76,7 @@ func dayOneSecondChallenge(input: [Int] ) {
 				if k >= input.count - 1 { break }
 				if sumFirstTwoExpenses + input[k] == limit {
 					solution = input[i] * input[j] * input[k]
-					print("The solution for the second challenge Day one is: ", solution, "\n")
+					print("The solution for the second challenge is: ", solution, "\n")
 					break outerloop
 				}
 				if sumFirstTwoExpenses + input[k] < limit {
