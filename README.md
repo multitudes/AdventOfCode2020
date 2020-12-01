@@ -14,7 +14,7 @@
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
 
-This year I wanna try something different with the Swift package manager. This allows me to have an executable package and to pack all my files in it.  
+This year I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
 
 You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)
 
