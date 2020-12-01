@@ -14,5 +14,5 @@ struct Day2: ParsableCommand {
 
 
 // Run the parser.
-Day1.main()
+Day2.main()
 

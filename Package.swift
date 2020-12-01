@@ -24,5 +24,14 @@ let package = Package(
 		.testTarget(
 			name: "Day1Tests",
 			dependencies: ["AdventOfCode2020"]),
+		.target(
+			name: "Day2",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.testTarget(
+			name: "Day2Tests",
+			dependencies: ["AdventOfCode2020"]),
     ]
 )
