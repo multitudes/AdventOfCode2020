@@ -22,7 +22,7 @@ You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/prepa
 
 
 ## Progress
-| Day  | Part One | Part Two | ✓
+| Day  | Part One | Part Two |
 |---|:---:|:---:|
 | ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
 | 😬 [Day 2: ](https://adventofcode.com/2020/day/2)|||
