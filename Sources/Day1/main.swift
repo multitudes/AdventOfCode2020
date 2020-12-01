@@ -19,8 +19,8 @@ struct Day1: ParsableCommand {
 		dayOneSecondChallenge(input: input)
 		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
 
-		print("\n\nTime elapsed for day one challenge 1 is: \(timeElapsed) s.")
-		print("Time elapsed for day one challenge 2 is: \(timeElapsed2) s.\n")
+		print("\n\nTime elapsed for the challenge 1 is: \(timeElapsed) s.")
+		print("Time elapsed for the challenge 2 is: \(timeElapsed2) s.\n")
 	}
 }
 
