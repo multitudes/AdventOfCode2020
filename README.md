@@ -66,7 +66,7 @@ var input: [Int] = []
 ```
 the solution is here in `module`:  
 `Bundle.module.url(forResource: "input", withExtension: "txt")!`, the module static keyword is created by swift when I use the package and when I declare the dependency in the Package manager!  
-Do not forget to update it like this
+Do not forget to update it like this, where Resources is my resources folder containing the input file...
 ```swift
 .target(
 	name: "Day1",
