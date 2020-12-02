@@ -106,7 +106,7 @@ extension String {
 }
 
 "6-10 h: pqlfbhcnglgvhdgddn".getCapturedGroupsFrom(regexPattern: "(\\d+)-(\\d+) ([a-z]). ([a-z]+)")
-// returns ["6", "10", "h", "pqlfbhcnglgvhdgddn"]
+// returns ["6", "10", "h", "pqlfbhcnglgvhdgddn"] or nil if the pattern has no match!
 ```
 I feel slowly better now!
 
