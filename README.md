@@ -110,4 +110,14 @@ extension String {
 ```
 I feel slowly better now!
 
+Another thing I liked about today is that I finally got to use this Swift nice boolean operator: `~=`
+It means the range contains the element:
+```
+public var isValid: Bool {
+	self.frequency ~= self.string.reduce(0) {
+		$1 == self.char ? $0 + 1 : $0
+	}
+}
+```
+Where `frequency` is a CloseRange like `1...3`, `~=` means contains and the right part is the count of the character in the string. So if the closed range contains the count of the character then the password is valid...
 ## Day 3
