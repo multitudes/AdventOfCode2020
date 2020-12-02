@@ -86,3 +86,28 @@ I had to refresh my regexes! For troubleshooting the pattern I used Lea Verou Re
 https://projects.verou.me/regexplained/  
 Regex in Swift is pretty hard when you try to capture groups. I had to look in Stackoverflow to keep my sanity.  
 The code for this is again probaly 20 times longer than the Python equivalent. Swift really should get his regexes together! ;)
+I still managed to create an extension of String spitting out an array of the regex groups
+```swift
+extension String {
+
+	func getCapturedGroupsFrom(regexPattern: String)-> [String]? {
+		let text = self
+		let regex = try? NSRegularExpression(pattern: regexPattern)
+
+		let match = regex?.firstMatch(in: text, range: NSRange(text.startIndex..., in: text))
+
+		if let match = match {
+			return (0..<match.numberOfRanges).compactMap {
+				$0 > 0 ? String(text[Range(match.range(at: $0), in: text)!]) : nil
+			}
+		}
+		return nil
+	}
+}
+
+"6-10 h: pqlfbhcnglgvhdgddn".getCapturedGroupsFrom(regexPattern: "(\\d+)-(\\d+) ([a-z]). ([a-z]+)")
+// returns ["6", "10", "h", "pqlfbhcnglgvhdgddn"]
+```
+I feel slowly better now!
+
+## Day 3
