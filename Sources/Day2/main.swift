@@ -1,5 +1,6 @@
 import ArgumentParser
 import Foundation
+import AdventKit
 
 // Define our parser.
 struct Day2: ParsableCommand {
