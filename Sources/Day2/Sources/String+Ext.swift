@@ -16,26 +16,21 @@ extension String.StringInterpolation {
 
 
 extension String {
-	func groups(for regexPattern: String) -> [[String]] {
-		do {
-			let text = self
-			let regex = try NSRegularExpression(pattern: regexPattern)
-			let matches = regex.matches(in: text,
-										range: NSRange(text.startIndex..., in: text))
-			return matches.map { match in
-				return (0..<match.numberOfRanges).map {
-					let rangeBounds = match.range(at: $0)
-					guard let range = Range(rangeBounds, in: text) else {
-						return ""
-					}
-					return String(text[range])
-				}
+		
+	func getCapturedGroupsFrom(regexPattern: String)-> [String]? {
+		let text = self
+		let regex = try? NSRegularExpression(pattern: regexPattern)
+
+		let match = regex?.firstMatch(in: text, range: NSRange(text.startIndex..., in: text))
+
+		if let match = match {
+			return (0..<match.numberOfRanges).compactMap {
+				$0 > 0 ? String(text[Range(match.range(at: $0), in: text)!]) : nil
 			}
-		} catch let error {
-			print("invalid regex: \(error.localizedDescription)")
-			return []
 		}
+		return nil
 	}
+
 
 	subscript(idx: Int) -> Character {
 		Character(extendedGraphemeClusterLiteral: self[index(startIndex, offsetBy: idx)])

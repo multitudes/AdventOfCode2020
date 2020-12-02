@@ -12,13 +12,13 @@ struct Day2: ParsableCommand {
 		let startTime = CFAbsoluteTimeGetCurrent()
 
 		let input = getInputArray()
-		let solution = input.filter { Password($0).isValid }.count
+		let solution = input.filter { Password($0)?.isValid ?? false}.count
 		print("The solution for the first challenge is: ", solution, "\n")
 
 		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 		let startTime2 = CFAbsoluteTimeGetCurrent()
 
-		let solution2 = input.filter { Password($0).isValidForNewPolicy }.count
+		let solution2 = input.filter { Password($0)?.isValidForNewPolicy ?? false }.count
 		print("The solution for the second challenge is: ", solution2, "\n")
 		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
 
