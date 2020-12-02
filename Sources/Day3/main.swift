@@ -31,10 +31,7 @@ struct Day2: ParsableCommand {
 func getInputArray() -> [String] {
 	var input: [String] = []
 	do {
-		let fileUrl = Bundle.module.url(forResource: "input", withExtension: "txt")!
 
-		let inputString = try String(contentsOf: fileUrl)
-		input = inputString.split(separator: "\n").compactMap {String($0)}
 	} catch {
 		print(error.localizedDescription)
 	}

@@ -16,7 +16,7 @@ extension String.StringInterpolation {
 
 
 extension String {
-		
+
 	func getCapturedGroupsFrom(regexPattern: String)-> [String]? {
 		let text = self
 		let regex = try? NSRegularExpression(pattern: regexPattern)
