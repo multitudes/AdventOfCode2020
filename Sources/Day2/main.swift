@@ -14,13 +14,18 @@ struct Day2: ParsableCommand {
 		let input = getInputArray()
 		let solution = input.filter { Password($0).isValid }.count
 		print("The solution for the first challenge is: ", solution, "\n")
-		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 
-		print("\n\nTime elapsed for the challenge 1 is: \(timeElapsed) s.")
-//		print("Time elapsed for the challenge 2 is: \(timeElapsed2) s.\n")
+		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+		let startTime2 = CFAbsoluteTimeGetCurrent()
+
+		let solution2 = input.filter { Password($0).isValidForNewPolicy }.count
+		print("The solution for the second challenge is: ", solution2, "\n")
+		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
+
+		print("Time elapsed for the challenge 1 is: \(timeElapsed, specifier: "%.2f") seconds")
+		print(String("Time elapsed for the challenge 2 is: \(timeElapsed2, specifier: "%.2f") seconds"))
 	}
 }
-
 
 
 func getInputArray() -> [String] {

@@ -8,6 +8,13 @@
 import Foundation
 
 
+extension String.StringInterpolation {
+	mutating func appendInterpolation(_ number: Double, specifier: String){
+		appendLiteral(String(format:"%.3f", number))
+	}
+}
+
+
 extension String {
 	func groups(for regexPattern: String) -> [[String]] {
 		do {
@@ -28,5 +35,11 @@ extension String {
 			print("invalid regex: \(error.localizedDescription)")
 			return []
 		}
+	}
+	subscript(idx: Int) -> Character {
+		Character(extendedGraphemeClusterLiteral: self[index(startIndex, offsetBy: idx)])
+	}
+	subscript(idx: Int) -> String {
+		String(self[index(startIndex, offsetBy: idx)])
 	}
 }
