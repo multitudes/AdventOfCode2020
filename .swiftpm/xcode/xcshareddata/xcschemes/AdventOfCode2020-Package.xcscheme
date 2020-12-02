@@ -90,6 +90,34 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AdventOfCode2020_Day2"
+               BuildableName = "AdventOfCode2020_Day2"
+               BlueprintName = "AdventOfCode2020_Day2"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Day3"
+               BuildableName = "Day3"
+               BlueprintName = "Day3"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -144,9 +172,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Day2"
-            BuildableName = "Day2"
-            BlueprintName = "Day2"
+            BlueprintIdentifier = "Day3"
+            BuildableName = "Day3"
+            BlueprintName = "Day3"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -170,9 +198,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Day2"
-            BuildableName = "Day2"
-            BlueprintName = "Day2"
+            BlueprintIdentifier = "Day3"
+            BuildableName = "Day3"
+            BlueprintName = "Day3"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
