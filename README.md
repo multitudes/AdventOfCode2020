@@ -112,7 +112,7 @@ I feel slowly better now!
 
 Another thing I liked about today is that I finally got to use this Swift nice boolean operator: `~=`
 It means the range contains the element:
-```
+```swift
 public var isValid: Bool {
 	self.frequency ~= self.string.reduce(0) {
 		$1 == self.char ? $0 + 1 : $0
