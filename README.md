@@ -31,3 +31,58 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 |---|:---:|:---:|
 | ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
+
+## Day 1 
+Most of the time on day one has been spent on the Swift Package Manager. Of course the code I used to write in the Playgrounds to load the input file doesnt work in the SPM Xcode environment.   
+In the Playgrounds I could put my input.txt file in the Resources folder and it would appear to me under `Bundle.main.url(forResource: withExtension:)`
+So in code I would load the input like this:  
+```swift
+var input: [Int] = []
+do {
+	guard let fileUrl = Bundle.main.url(forResource: "input", withExtension: "txt") else {
+		fatalError("error input not found")
+	}
+	input = try String(contentsOf: fileUrl).split(separator: "\n").compactMap {Int($0)}.sorted()
+	} catch {
+	print(error.localizedDescription)
+}
+```
+
+Compare this to this python code 🙃 :   
+```python
+with open('input.txt', 'r') as file:
+    data = {int(number) for number in file}
+```   
+
+Anyway the SPM would not find my `input.txt` file! After trying everything including looking in `FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)` and trying to put the input file in different levels of folders, I found out the answer in the Apple docs:  
+```swift
+var input: [Int] = []
+	do {
+		let fileUrl = Bundle.module.url(forResource: "input", withExtension: "txt")!
+		input =  try String(contentsOf: fileUrl).split(separator: "\n").compactMap {Int($0)}
+	} catch {
+		print(error.localizedDescription)
+	}
+```
+the solution is here in `module`:  
+`Bundle.module.url(forResource: "input", withExtension: "txt")!`, the module static keyword is created by swift when I use the package and when I declare the dependency in the Package manager!  
+Do not forget to update it like this, where Resources is my resources folder containing the input file...
+```swift
+.target(
+	name: "Day1",
+	dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+	exclude: ["README.md"],
+	resources: [.process("Resources")]
+	),
+```
+
+https://developer.apple.com/documentation/swift_packages/bundling_resources_with_a_swift_package  
+
+Lesson learned!
+
+
+## Day 2
+I had to refresh my regexes! For troubleshooting the pattern I used Lea Verou Regex playground:  
+https://projects.verou.me/regexplained/  
+Regex in Swift is pretty hard when you try to capture groups. I had to look in Stackoverflow to keep my sanity.  
+The code for this is again probaly 20 times longer than the Python equivalent. Swift really should get his regexes together! ;)
