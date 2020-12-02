@@ -66,6 +66,15 @@ var input: [Int] = []
 ```
 the solution is here in `module`:  
 `Bundle.module.url(forResource: "input", withExtension: "txt")!`, the module static keyword is created by swift when I use the package and when I declare the dependency in the Package manager!  
+Do not forget to update it like this
+```swift
+.target(
+			name: "Day1",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+```
 
 https://developer.apple.com/documentation/swift_packages/bundling_resources_with_a_swift_package  
 
