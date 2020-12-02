@@ -69,11 +69,11 @@ the solution is here in `module`:
 Do not forget to update it like this
 ```swift
 .target(
-			name: "Day1",
-			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
-			exclude: ["README.md"],
-			resources: [.process("Resources")]
-		),
+	name: "Day1",
+	dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+	exclude: ["README.md"],
+	resources: [.process("Resources")]
+	),
 ```
 
 https://developer.apple.com/documentation/swift_packages/bundling_resources_with_a_swift_package  
