@@ -34,7 +34,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 
 ## Day 1 
 Most of the time on day one has been spent on the Swift Package Manager. Of course the code I used to write in the Playgrounds to load the input file doesnt work in the SPM Xcode environment.   
-In the Playgrounds I could put my input.txt file in the Resources folder and it would appear to me under `Bundle.main.url(forResouce: withExtension:)`
+In the Playgrounds I could put my input.txt file in the Resources folder and it would appear to me under `Bundle.main.url(forResource: withExtension:)`
 So in code I would load the input like this:  
 ```swift
 var input: [Int] = []
