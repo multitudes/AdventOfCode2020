@@ -79,4 +79,9 @@ In the above example, these slopes would find 2, 7, 3, 4, and 2 tree(s) respecti
 
 What do you get if you multiply together the number of trees encountered on each of the listed slopes?
 
+Your puzzle answer was 6419669520.
+
+That's the right answer! You are one gold star closer to saving your vacation.
+
+You have completed Day 3!
 
