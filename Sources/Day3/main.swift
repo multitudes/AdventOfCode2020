@@ -20,7 +20,6 @@ struct Day3: ParsableCommand {
 				input = try String(contentsOf: url).split(separator: "\n").compactMap {String($0) }
 			} catch  {
 				throw RuntimeError("Couldn't read from '\(inputFile)'!")
-
 			}
 		} else {
 			print("Running Day3 Challenge with input from the website\n")
@@ -49,8 +48,7 @@ struct Day3: ParsableCommand {
 func getInputArray(from url: URL) -> [String] {
 	var input: [String] = []
 	do {
-		let inputString = try String(contentsOf: url)
-		input = inputString.split(separator: "\n").compactMap {String($0) }
+		input = try String(contentsOf: url).split(separator: "\n").compactMap {String($0) }
 	} catch {
 		print(error.localizedDescription)
 	}
