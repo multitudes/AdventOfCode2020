@@ -127,3 +127,14 @@ public var isValid: Bool {
 Where `frequency` is a CloseRange like `1...3`, `~=` means contains and the right part is the count of the character in the string. So if the closed range contains the count of the character then the password is valid...
 
 ## Day 3
+What I learned today is that you cannot have an extension for tuples! I wanted to overload my TupleType to make addition possible, but turns out that they are a compound type. I can only extend data types like Collections etc.  Makes sense now.
+https://docs.swift.org/swift-book/ReferenceManual/Types.html#grammar_tuple-type
+
+It would have been nice to declare two tuples a and b and get a + b with the sum of a.x + b.x and a.y and b.y. 
+Since they are conpound types and variadic, this approach is not possible. Just making a function for this is the way to go:
+```swift
+func jump(from position:(x: Int, y: Int), with offset: (x: Int, y: Int)) -> (Int,Int) {
+	return (x: position.x + offset.x, y: position.y + offset.y)
+}
+```
+I took my input file and split in an array of `String`. A row is then converted in an array of `Character`.  
