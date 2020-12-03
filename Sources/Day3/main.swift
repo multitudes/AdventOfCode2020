@@ -4,12 +4,11 @@ import AdventKit
 
 // Define our parser.
 struct Day3: ParsableCommand {
-	//Declare optional argument. Drag the input file to terminal!
-	@Option(name: [.short, .customLong("inputFile")], help: "Specify the path to the input file.")
+	//Declare optional argument.
+	@Option(name: [.short, .customLong("inputFile")], help: "Specify the path to the input file or drag the input file to terminal!")
 	var inputFile : String = ""
 
 	func run() throws {
-		let startTime = CFAbsoluteTimeGetCurrent()
 		var input: [String] = []
 
 		if !inputFile.isEmpty {
@@ -25,20 +24,17 @@ struct Day3: ParsableCommand {
 			input = getInputArray(from: url)
 		}
 
+		// first part
 		let stride = (x: 3, y: 1)
 		let solution = descend(slope: input, with: stride)
 
-		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-		let startTime2 = CFAbsoluteTimeGetCurrent()
-
+		// second part
 		let strides: [(Int,Int)] = [(x: 1, y: 1),(x: 3, y: 1),(x: 5, y: 1),(x: 7, y: 1),(x: 1, y: 2)]
 		let solution2 = strides.map { descend(slope: input, with: $0)}.reduce(1, *)
+
 		print("\nThe solution for the first challenge is: ", solution)
 		print("The solution for the second challenge is: ", solution2, "\n")
-		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
 
-		print("Time elapsed for the challenge 1 is: \(timeElapsed, specifier: "%.2f") seconds")
-		print(String("Time elapsed for the challenge 2 is: \(timeElapsed2, specifier: "%.2f") seconds"))
 	}
 }
 
