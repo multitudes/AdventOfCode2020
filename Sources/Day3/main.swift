@@ -4,15 +4,19 @@ import AdventKit
 
 // Define our parser.
 struct Day3: ParsableCommand {
-	// Declare expected launch argument(s).
-	//  @Option(help: "Specify an Integer.")
-	//  var input: Int
-
+//	 Declare expected launch argument(s).
+//	  @Option(help: "Specify the path to the input file.")
+//	  var path: String?
+//	var url: URL? = nil
+//	if let path = path {
+//			url = URL(string: path)
+//	} else
+	
 	func run() throws {
 		print("Running Day3 Challenge with input from the website\n")
 		let startTime = CFAbsoluteTimeGetCurrent()
-
-		let input = getInputArray()
+		guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
+		let input = getInputArray(from: url)
 		let stride = (x: 3, y: 1)
 		let solution = descend(slope: input, with: stride)
 		print("The solution for the first challenge is: ", solution, "\n")
@@ -31,10 +35,9 @@ struct Day3: ParsableCommand {
 }
 
 
-func getInputArray() -> [String] {
+func getInputArray(from url: URL) -> [String] {
 	var input: [String] = []
 	do {
-		guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
 		let inputString = try String(contentsOf: url)
 		input = inputString.split(separator: "\n").compactMap {String($0) }
 	} catch {
