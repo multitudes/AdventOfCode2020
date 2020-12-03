@@ -21,7 +21,9 @@
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
 This year I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
-You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)
+You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)  
+I created a package with some common used functions and structs/classes, the `AdventKit`:  
+https://github.com/multitudes/AdventKit/blob/main/README.md
 
 ## Advent of Code 2020 Story
 
