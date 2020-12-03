@@ -9,6 +9,13 @@
 ## What is Advent of Code?
 [Advent of Code](http://adventofcode.com) is an online event created by [Eric Wastl](https://twitter.com/ericwastl). Each year an advent calendar of small programming puzzles is unlocked once a day, they can be solved in any programming language you like. 
 
+## Progress
+| Day  | Part One | Part Two |
+|---|:---:|:---:|
+| ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
+| ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
+| ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⏱||
+
 
 ## Preparing the environment
 
@@ -26,14 +33,7 @@ To save your vacation, you need to get all fifty stars by December 25th.
 
 Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!  
 
-## Progress
-| Day  | Part One | Part Two |
-|---|:---:|:---:|
-| ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
-| ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
-| ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⏱||
-
-
+# A sort of diary
 
 ## Day 1 
 Most of the time on day one has been spent on the Swift Package Manager. Of course the code I used to write in the Playgrounds to load the input file doesnt work in the SPM Xcode environment.   
