@@ -31,6 +31,9 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 |---|:---:|:---:|
 | ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
+| ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⏱||
+
+
 
 ## Day 1 
 Most of the time on day one has been spent on the Swift Package Manager. Of course the code I used to write in the Playgrounds to load the input file doesnt work in the SPM Xcode environment.   
@@ -120,4 +123,5 @@ public var isValid: Bool {
 }
 ```
 Where `frequency` is a CloseRange like `1...3`, `~=` means contains and the right part is the count of the character in the string. So if the closed range contains the count of the character then the password is valid...
+
 ## Day 3
