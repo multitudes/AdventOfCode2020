@@ -8,10 +8,10 @@ struct Day2: ParsableCommand {
 	//  var input: Int
 
 	func run() throws {
-//		print("Running Day3 Challenge with input from the website\n")
-//		let startTime = CFAbsoluteTimeGetCurrent()
-//
-//		let input = getInputArray()
+		print("Running Day3 Challenge with input from the website\n")
+		let startTime = CFAbsoluteTimeGetCurrent()
+
+		let input = getInputArray()
 //		let solution = input.filter { Password($0).isValid }.count
 //		print("The solution for the first challenge is: ", solution, "\n")
 //
@@ -28,7 +28,7 @@ struct Day2: ParsableCommand {
 }
 
 
-func getInputArray() -> [String] {
+func getInputMatrix() -> [String] {
 	var input: [String] = []
 	do {
 
