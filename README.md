@@ -14,7 +14,7 @@
 |---|:---:|:---:|
 | ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
-| ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⭐️|🌲|
+| ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⭐️|⭐️|
 
 
 ## Preparing the environment
@@ -138,3 +138,6 @@ func jump(from position:(x: Int, y: Int), with offset: (x: Int, y: Int)) -> (Int
 }
 ```
 I took my input file and split in an array of `String`. A row is then converted in an array of `Character`.  
+
+
+## Day 4
