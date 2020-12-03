@@ -28,7 +28,7 @@ struct Day2: ParsableCommand {
 }
 
 
-func getInputMatrix() -> [String] {
+func getInputArray() -> [String] {
 	var input: [String] = []
 	do {
 
