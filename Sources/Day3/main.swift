@@ -66,14 +66,10 @@ func jump(from position:(x: Int, y: Int), with offset: (x: Int, y: Int)) -> (Int
 
 func descend(slope input: [String] ,with stride: (x: Int, y: Int)) -> Int {
 	var trees = 0
-	let height = input.count
 	var position: (x: Int, y: Int ) = (0,0)
-
-	let start = (0,0)
 	var row: [Character]
-	while true {
-		if position.y >= height { break }
-		if position == start {position = jump(from: start, with: stride ); continue}
+
+	while position.y < input.count {
 		row = Array(input[position.y])
 		if row[position.x] == Location.open.rawValue {
 			row[position.x] = Location.checkedOpen.rawValue
@@ -84,9 +80,8 @@ func descend(slope input: [String] ,with stride: (x: Int, y: Int)) -> Int {
 			trees += 1
 		}
 		position = jump(from: position, with: stride )
-		position.x = (position.x) <= (row.count - 1) ? (position.x) : (position.x - (row.count))
+		position.x = position.x % row.count
 	}
-
 	return trees
 }
 
