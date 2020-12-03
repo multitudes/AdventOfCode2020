@@ -4,19 +4,30 @@ import AdventKit
 
 // Define our parser.
 struct Day3: ParsableCommand {
-//	 Declare expected launch argument(s).
-//	  @Option(help: "Specify the path to the input file.")
-//	  var path: String?
-//	var url: URL? = nil
-//	if let path = path {
-//			url = URL(string: path)
-//	} else
+	//Declare expected launch argument(s).
+	@Option(name: [.short, .customLong("inputFile")], help: "Specify the path to the input file.")
+	var inputFile : String = ""
+
+
 	
 	func run() throws {
-		print("Running Day3 Challenge with input from the website\n")
 		let startTime = CFAbsoluteTimeGetCurrent()
-		guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
-		let input = getInputArray(from: url)
+		var input: [String] = []
+
+		if !inputFile.isEmpty {
+			do {
+				let url = URL(fileURLWithPath: inputFile)
+				input = try String(contentsOf: url).split(separator: "\n").compactMap {String($0) }
+			} catch  {
+				throw RuntimeError("Couldn't read from '\(inputFile)'!")
+
+			}
+		} else {
+			print("Running Day3 Challenge with input from the website\n")
+			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
+			input = getInputArray(from: url)
+		}
+
 		let stride = (x: 3, y: 1)
 		let solution = descend(slope: input, with: stride)
 		print("The solution for the first challenge is: ", solution, "\n")
@@ -86,3 +97,10 @@ func descend(slope input: [String] ,with stride: (x: Int, y: Int)) -> Int {
 // Run the parser.
 Day3.main()
 
+struct RuntimeError: Error, CustomStringConvertible {
+	var description: String
+
+	init(_ description: String) {
+		self.description = description
+	}
+}
