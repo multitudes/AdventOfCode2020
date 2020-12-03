@@ -35,7 +35,8 @@ let package = Package(
 		),
 		.target(
 			name: "Day3",
-			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
 			exclude: ["README.md"],
 			resources: [.process("Resources")]
 		),
