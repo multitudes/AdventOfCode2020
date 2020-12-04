@@ -20,7 +20,7 @@ struct Day4: ParsableCommand {
 				throw RuntimeError("Couldn't read from file!")
 			}
 		} else {
-			print("Running Day3 Challenge with input from the website\n")
+			print("Running Day4 Challenge with input from the website\n")
 			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
 			input = getInputArray(from: url)
 		}
