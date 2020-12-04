@@ -15,7 +15,7 @@
 | ✅ [Day 1: Report Repair](https://adventofcode.com/2020/day/1)|⭐️|⭐️|
 | ✅ [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2)|⭐️|⭐️|
 | ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⭐️|⭐️|
-| ✅ [Day 4: Passport Processing](https://adventofcode.com/2020/day/4)|⭐️|🙃|
+| ✅ [Day 4: Passport Processing](https://adventofcode.com/2020/day/4)|⭐️|⭐️|
 
 
 ## Preparing the environment
@@ -142,3 +142,38 @@ I took my input file and split in an array of `String`. A row is then converted 
 
 
 ## Day 4
+
+Today the second part was quite tedious to be honest. Still fun though!  
+The input file had a list of passport data separated by empty lines. 
+
+How do you do that in Swift? 
+I created a String extension called `lines`
+```swift
+public extension String {
+	var lines: [String] {
+		components(separatedBy: .newlines)
+	}
+}
+```
+
+and then having an array of lines I got the array of passport data with:
+```swift
+let inputString = try String(contentsOf: url)
+	input = inputString.lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
+```
+I then created a `Passport` struct which has an initializer taking my input string which looks like:  
+`"eyr:1972 cid:100 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926"`
+and created a dictionary out of it using a regex:
+```swift
+init(passportData: String) {
+	let fieldsDataArray = passportData.components(separatedBy: .whitespaces)
+	fieldsDataArray.forEach { if let field =  $0.getCapturedGroupsFrom(regexPattern: "(\\w+):([#\\w]+)") { fields[field[0]] = field[1] }
+	}
+}
+```
+The rest is creating computed variables in the struct so I can iterated on the data and filter the valid passports:
+
+```swift
+let solution1 = input.filter {Passport(passportData: $0).areValidNorthPoleCredentials}.count
+let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.count
+```
