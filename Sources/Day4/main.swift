@@ -32,7 +32,6 @@ struct Day4: ParsableCommand {
 		let solution1 = input.filter {Passport(passportData: $0).areValidNorthPoleCredentials}.count
 		print("\nThe solution for the first challenge is: ", solution1)
 
-
 		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 		let startTime2 = CFAbsoluteTimeGetCurrent()
 
@@ -46,25 +45,7 @@ struct Day4: ParsableCommand {
 	}
 }
 
-
-func getInputArray(from url: URL) -> [String] {
-	var input: [String] = []
-	do {
-		input = try String(contentsOf: url).split(separator: "\n").compactMap {String($0) }
-	} catch {
-		print(error.localizedDescription)
-	}
-	return input
-}
-
-
 // Run the parser.
 Day4.main()
 
-struct RuntimeError: Error, CustomStringConvertible {
-	var description: String
 
-	init(_ description: String) {
-		self.description = description
-	}
-}

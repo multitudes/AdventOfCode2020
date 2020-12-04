@@ -83,11 +83,3 @@ func descend(slope input: [String] ,with stride: (x: Int, y: Int)) -> Int {
 
 // Run the parser.
 Day3.main()
-
-struct RuntimeError: Error, CustomStringConvertible {
-	var description: String
-
-	init(_ description: String) {
-		self.description = description
-	}
-}
