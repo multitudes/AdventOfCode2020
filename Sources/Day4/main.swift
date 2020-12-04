@@ -21,21 +21,27 @@ struct Day4: ParsableCommand {
 			}
 		} else {
 			print("Running Day4 Challenge with input from the website\n")
-			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
-			input = getInputArray(from: url)
+			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else {
+				fatalError("Input not found")
+			}
+			let inputString = try String(contentsOf: url)
+			input = inputString.lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
 		}
 		print(input)
-		let solution = ""
+
+		let solution1 = input.filter {Passport(passportData: $0).areValidNorthPoleCredentials}.count
+		print("\nThe solution for the first challenge is: ", solution1)
+
 
 		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 		let startTime2 = CFAbsoluteTimeGetCurrent()
 
-		let solution2 = ""
-		print("\nThe solution for the first challenge is: ", solution)
-		print("The solution for the second challenge is: ", solution2, "\n")
+		let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.count
+		print("\nThe solution for the second challenge is: ", solution2)
+
 		let timeElapsed2 = CFAbsoluteTimeGetCurrent() - startTime2
 
-		print("Time elapsed for the challenge 1 is: \(timeElapsed, specifier: "%.2f") seconds")
+		print("\nTime elapsed for the challenge 1 is: \(timeElapsed, specifier: "%.2f") seconds")
 		print(String("Time elapsed for the challenge 2 is: \(timeElapsed2, specifier: "%.2f") seconds"))
 	}
 }
