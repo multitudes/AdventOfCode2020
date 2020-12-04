@@ -155,15 +155,15 @@ public extension String {
 	}
 }
 ```
-
+This result in an array of string with the occasional `""` blank, need to split at `""` (note this variant of split is special) and returns a substring which needs to be converted to an array with `compactMap`. So I would get an array of arrays!! 🙃 This is why I need to join at the end every subarray. Phew.  
 and then having an array of lines I got the array of passport data with:
 ```swift
 let inputString = try String(contentsOf: url)
-	input = inputString.lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
+input = inputString.lines.split { $0 == "" }.compactMap {Array($0)}.map { $0.joined(separator: " ")}
 ```
-I then created a `Passport` struct which has an initializer taking my input string which looks like:  
-`"eyr:1972 cid:100 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926"`
-and created a dictionary out of it using a regex:
+Result is like an array of `"eyr:1972 cid:100 hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926"` 
+
+I then created a `Passport` struct which has an initializer taking my input string which create a dictionary out of it using a regex:
 ```swift
 init(passportData: String) {
 	let fieldsDataArray = passportData.components(separatedBy: .whitespaces)
