@@ -24,7 +24,7 @@ struct Day4: ParsableCommand {
 			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError("File not found")}
 			input = getInputArray(from: url)
 		}
-
+		print(input)
 		let solution = ""
 
 		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
