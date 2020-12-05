@@ -7,7 +7,7 @@ let package = Package(
     name: "AdventOfCode2020",
     dependencies: [
 		.package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.0"),
-		.package(url: "https://github.com/multitudes/AdventKit.git", from: "0.4.0"),
+		.package(url: "https://github.com/multitudes/AdventKit.git", from: "0.5.2"),
     ],
     targets: [
         .target(
@@ -49,6 +49,13 @@ let package = Package(
 		),
 		.target(
 			name: "Day5",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day6",
 			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
 				.product(name: "AdventKit", package: "AdventKit")],
 			exclude: ["README.md"],
