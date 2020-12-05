@@ -30,22 +30,20 @@ struct Day5: ParsableCommand {
 			input.removeAll { $0.isEmpty }
 		}
 
-
-		let solution = input.map {BoardingPass(binarySpace: $0).seatID}.reduce(0) {max($0, $1)}
-		print("\nThe solution for the first challenge is: ", solution)
+		let seats = input.map {BoardingPass($0).seatID}
+		let solution1 = input.map {BoardingPass(binarySpace: $0).seatID}.reduce(0) {max($0, $1)}
+		print("\nThe solution for the first challenge is: ", solution1)
 
 		let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 		let startTime2 = CFAbsoluteTimeGetCurrent()
 
-		let seats = input.map {BoardingPass(binarySpace: $0).seatID}.sorted()
-
-		if let startSeatMap = seats.first, let lastSeat = seats.last {
-			let contiguousSet = Set(startSeatMap...lastSeat)
-			if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
-				print("\nThe solution for the second challenge is: ", solution2)
-			}  else {
-				print("No seats available for you!! ")
-			}
+		let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(0) {min($0, $1)}
+		let maxSeatNumber = solution1
+		let contiguousSet = Set(minSeatNumber...maxSeatNumber)
+		if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
+			print("solution part 2 is \(solution2)")
+		}  else {
+			print("No seats available for you!! ")
 		}
 
 		print("\nTime elapsed for the challenge 1 is: \(timeElapsed, specifier: "%.2f") seconds")
