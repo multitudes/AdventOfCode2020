@@ -212,7 +212,7 @@ let solution1 = seats.reduce(0) {max($0, $1)}
 For part two I have a series of integers, seat ID's. One is missing. 
 To find it I got the min seat number, the max was the solution of the first challenge, and then created a continuous range from min to max, which substracting my seats set, gets me the only one seat number which os not matching!
 ```swift
-let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(0) {min($0, $1)}
+let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(Int.max) {min($0, $1)}
 let maxSeatNumber = solution1
 let contiguousSet = Set(minSeatNumber...maxSeatNumber)
 if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
