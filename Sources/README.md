@@ -182,6 +182,10 @@ let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.
 
 Today was a relaxing boarding day, even if our chqaracter dropped his boarding pass after all the work we did to validate his credentials!
 
+<p align="center">
+  <img src="/images/boarding2.gif" width="600"  title="boarding"></img>
+</p>
+
 The interesting bit has been, how to convert a string to a binary and then an integer?  
 This is the code that I used to convert a string like `"FBFBBFFRLR"` to a row and seat number.  
 I created an array of tuples with the chars to be substituted:  
