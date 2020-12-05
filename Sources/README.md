@@ -187,43 +187,38 @@ Today was a relaxing boarding day, even if our chqaracter dropped his boarding p
 </p>
 
 The interesting bit has been, how to convert a string to a binary and then an integer?  
-This is the code that I used to convert a string like `"FBFBBFFRLR"` to a row and seat number.  
-I created an array of tuples with the chars to be substituted:  
-`var decoding: [(String,String)] = [("F","0"),("B","1"),("R","1"),("L","0")]`  
-then mapping on each of those to replace every occurrence with t a binary digit  
-`decoding.map { binString.replace($0.0, with: $0.1)  } // getting "0101100101"`  
-For this I added a String extension  
+At the beginning I used a BoardingPass struct with row and column, getting the ID with row* 8 + column...
+But the elves tricked me! I just realised much later that when having a ten digit binary number, the first 7 digits multiplied by 8 plus the last 3 digits is the same number! 🙃
+This is my code refactored for brevity but still safe without crazy force unwrappings!
 ```swift
-extension String {
-	mutating func replace(_ search: String, with replacement: String) {
-		self = self.replacingOccurrences(of: search, with: replacement)
-	}
+
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt")
+	else {fatalError("Input file not found")}
+guard let inputString = try? String(contentsOf: url)
+	else { fatalError("Input file not found") }
+var input = inputString.components(separatedBy: .newlines)
+input.removeAll { $0.isEmpty }
+
+func getSeatID(_ inputString: String) -> Int? {
+	if let seatID = Int(Array(inputString).reduce(""){ result, c in
+		result + ("FL".contains(c) ? "0" : "1")},radix:  2) {
+			return seatID
+	} else { print("\nError, invalid seatID received!"); return nil}
 }
-```
-Then in my BoardingPass struct I initialize with 
-```swift
-if let row = Int(binString.prefix(7), radix: 2), 		//the first 7 digits -> 44
-	let column = Int(binString.suffix(3), radix: 2) {	// the last three -> 5
-		self.row = row 
-		self.column = column
-	}
-```
-Solution to part one is just finding the max:
-```swift
-let seats = input.map {BoardingPass($0).seatID}
-let solution1 = seats.reduce(0) {max($0, $1)}
-```
-For part two I have a series of integers, seat ID's. One is missing. 
-To find it I got the min seat number, the max was the solution of the first challenge, and then created a continuous range from min to max, which substracting my seats set, gets me the only one seat number which os not matching!
-```swift
-let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(Int.max) {min($0, $1)}
-let maxSeatNumber = solution1
+let seats = input.compactMap {getSeatID($0)}
+
+let maxSeatNumber = seats.reduce(0) {max($0, $1)}
+print("solution part 1 is \(maxSeatNumber)")
+// 980
+
+let minSeatNumber = seats.reduce(Int.max) {min($0, $1)}
 let contiguousSet = Set(minSeatNumber...maxSeatNumber)
 if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
 	print("solution part 2 is \(solution2)")
 }  else {
 	print("No seats available for you!! ")
 }
+//607
 ```
 
 
