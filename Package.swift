@@ -7,7 +7,7 @@ let package = Package(
     name: "AdventOfCode2020",
     dependencies: [
 		.package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.0"),
-		.package(url: "https://github.com/multitudes/AdventKit.git", from: "0.5.2"),
+		.package(url: "https://github.com/multitudes/AdventKit.git", from: "0.5.3"),
     ],
     targets: [
         .target(
