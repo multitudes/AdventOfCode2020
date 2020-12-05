@@ -177,3 +177,49 @@ The rest is creating computed variables in the struct so I can iterated on the d
 let solution1 = input.filter {Passport(passportData: $0).areValidNorthPoleCredentials}.count
 let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.count
 ```
+
+## Day 5
+
+Today was a relaxing boarding day, even if our chqaracter dropped his boarding pass after all the work we did to validate his credentials!
+
+The interesting bit has been, how to convert a string to a binary and then an integer?
+This is the code that I used to convert a string like `"FBFBBFFRLR"` to a row and seat number
+I created an array of tuples with the chars to be substituted:
+`var decoding: [(String,String)] = [("F","0"),("B","1"),("R","1"),("L","0")]`
+then mapping on each of those to replace every occurrence with t a binary digit
+`decoding.map { binString.replace($0.0, with: $0.1)  } // getting "0101100101"`
+For this I added a String extension
+```swift
+extension String {
+	mutating func replace(_ search: String, with replacement: String) {
+		self = self.replacingOccurrences(of: search, with: replacement)
+	}
+}
+```
+Then in my BoardingPass struct I initialize with 
+```swift
+if let row = Int(binString.prefix(7), radix: 2), 		//the first 7 digits -> 44
+	let column = Int(binString.suffix(3), radix: 2) {	// the last three -> 5
+		self.row = row 
+		self.column = column
+	}
+```
+Solution to part one is just finding the max:
+```swift
+let seats = input.map {BoardingPass($0).seatID}
+let solution1 = seats.reduce(0) {max($0, $1)}
+```
+For part two I have a series of integers, seat ID's. One is missing. 
+To find it I got the min seat number, the max was the solution of the first challenge, and then created a continuous range from min to max, which substracting my seats set, gets me the only one seat number which os not matching!
+```swift
+let minSeatNumber = input.map {BoardingPass($0).seatID}.reduce(0) {min($0, $1)}
+let maxSeatNumber = solution1
+let contiguousSet = Set(minSeatNumber...maxSeatNumber)
+if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
+	print("solution part 2 is \(solution2)")
+}  else {
+	print("No seats available for you!! ")
+}
+```
+
+
