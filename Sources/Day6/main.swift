@@ -33,8 +33,12 @@ struct Day6: ParsableCommand {
 		let solution = sets.map {Set($0.reduce([], +)).count}.reduce(0, +)
 		print("\nThe solution for the first challenge is: ", solution)
 
-
-		
+		let solution2 = sets.reduce(0) { sum, set in
+			let intersection = set.reduce(Set(set.first!)) { res,subSet in
+				res.intersection(subSet) }
+			return sum + intersection.count
+		}
+		print("\nThe solution for the second challenge is: ", solution2)
 	}
 }
 
