@@ -238,4 +238,45 @@ var sets = forms.map {Set($0) }
 let solution = sets.map {Set($0.reduce([], +)).count}.reduce(0, +)
 //6590
 ```
+First Draft! :   
+This is part 2 before refactoring. I had a hard time at first understanding the types of the results before using sets doing my intersections!
+```swift
+var solution2 = 0
+for set in sets {
+	print("set in sets ", set) //[["a", "b", "c"]]
+	var myStartSubset = Set(set.first!)
+	for subset in set {
+		print("myStartSubset ",myStartSubset)
+		print("subset ",subset)
+		let intersection = myStartSubset.intersection(subset)
+		print("intersection ",intersection)
+		myStartSubset = intersection
+	}
+	print("intersection ", myStartSubset, "count ",myStartSubset.count)
+	solution2 += myStartSubset.count
+}
+3288
+```
 
+Of course when I see the pattern looking like this:
+```swift
+extension Array {
+	func reduce<T>(_ initial: T, combine: (T, Element) -> T) -> T {
+		var result = initial
+		for x in self {
+			result = combine(result, x)
+		}
+		return result
+	}
+}
+```
+I can refactor the above code to use some functional programming!
+
+```swift
+let solution2 = sets.reduce(0) { sum, set in
+	let intersection = set.reduce(Set(set.first!)) { res,subSet in
+		res.intersection(subSet) }
+	return sum + intersection.count
+}
+solution2 //3288
+```
