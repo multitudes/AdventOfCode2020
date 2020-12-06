@@ -274,7 +274,7 @@ I can refactor the above code to use some functional programming!
 
 ```swift
 let solution2 = sets.reduce(0) { sum, set in
-	let intersection = set.reduce(Set(set.first!)) { res,subSet in
+	let intersection = set.reduce(Set(set.first ?? [])) { res,subSet in
 		res.intersection(subSet) }
 	return sum + intersection.count
 }
