@@ -17,7 +17,7 @@
 | ✅ [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3)|⭐️|⭐️|
 | ✅ [Day 4: Passport Processing](https://adventofcode.com/2020/day/4)|⭐️|⭐️|
 | ✅ [Day 5: Binary Boarding](https://adventofcode.com/2020/day/5)|⭐️|⭐️|
-| ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|🙄|
+| ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|⭐️|
 
 ## Preparing the environment
 
@@ -221,5 +221,21 @@ if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
 }
 //607
 ```
+## Day 6
 
+```swift
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else {fatalError()}
+//guard let url = Bundle.main.url(forResource: "Day6-example", withExtension: "txt") else {fatalError()}
+guard let input = try? String(contentsOf: url) else {fatalError()}
+
+let groups = input.split(omittingEmptySubsequences: false, whereSeparator: \.isWhitespace)
+// ["abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b"]
+let forms = groups.split(whereSeparator: { $0.isEmpty}).map {Array($0).map {Array($0)} }
+// [ArraySlice(["abc"]), ArraySlice(["a", "b", "c"]), ArraySlice(["ab", "ac"]) ...
+var sets = forms.map {Set($0) }
+//[Set([["a", "b", "c"]]), Set([["a"], ["c"], ["b"]]), Set([["a", "c"], ["a", "b"]]), Set([["a"]]), Set([["b"]])]
+
+let solution = sets.map {Set($0.reduce([], +)).count}.reduce(0, +)
+//6590
+```
 
