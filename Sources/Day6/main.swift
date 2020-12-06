@@ -9,40 +9,32 @@ struct Day6: ParsableCommand {
 	var inputFile : String = ""
 
 	func run() throws {
-		var input: [String] = []
+		var input: String = ""
 
 		if !inputFile.isEmpty {
-			do {
 				let url = URL(fileURLWithPath: inputFile)
-				input = try String(contentsOf: url).components(separatedBy: .newlines)
-				input.removeAll { $0.isEmpty }
-			} catch  {
-				throw RuntimeError("Couldn't read from file!")
-			}
+				guard let inputString = try? String(contentsOf: url) else {throw RuntimeError("Couldn't read from file!")}
+				input = inputString
 		} else {
 			print("Running Day6 Challenge with input from the website\n")
 			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else {
 				fatalError("Input file not found")
 			}
-			let inputString = try String(contentsOf: url)
-			input = inputString.components(separatedBy: .newlines)
-			input.removeAll { $0.isEmpty }
+			guard let inputString = try? String(contentsOf: url) else {fatalError()}
+			input = inputString
 		}
+		let groups = input.split(omittingEmptySubsequences: false, whereSeparator: \.isWhitespace)
+		// ["abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b"]
+		let forms = groups.split(whereSeparator: { $0.isEmpty}).map {Array($0).map {Array($0)} }
+		// [ArraySlice(["abc"]), ArraySlice(["a", "b", "c"]), ArraySlice(["ab", "ac"]) ...
+		let sets = forms.map {Set($0) }
+		//[Set([["a", "b", "c"]]), Set([["a"], ["c"], ["b"]]), Set([["a", "c"], ["a", "b"]]), Set([["a"]]), Set([["b"]])]
 
-		let solution = input.map {BoardingPass(binarySpace: $0).seatID}.reduce(0) {max($0, $1)}
+		let solution = sets.map {Set($0.reduce([], +)).count}.reduce(0, +)
 		print("\nThe solution for the first challenge is: ", solution)
 
 
-		let seats = input.map {BoardingPass(binarySpace: $0).seatID}.sorted()
-
-		if let startSeatMap = seats.first, let lastSeat = seats.last {
-			let contiguousSet = Set(startSeatMap...lastSeat)
-			if let solution2 = contiguousSet.subtracting(Set(seats)).first  {
-				print("\nThe solution for the second challenge is: ", solution2, "/n")
-			}  else {
-				print("No seats available for you!! ")
-			}
-		}
+		
 	}
 }
 
