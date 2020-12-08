@@ -18,6 +18,9 @@
 | ✅ [Day 4: Passport Processing](https://adventofcode.com/2020/day/4)|⭐️|⭐️|
 | ✅ [Day 5: Binary Boarding](https://adventofcode.com/2020/day/5)|⭐️|⭐️|
 | ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|⭐️|
+| ✅ [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)|⭐️|⭐️|
+| ✅ [Day 8: Handy Haversacks](https://adventofcode.com/2020/day/8)|⭐️|⭐️|
+| ✅ [Day 9: ??????????????????](https://adventofcode.com/2020/day/9)|||
 
 ## Preparing the environment
 
@@ -274,9 +277,130 @@ I can refactor the above code to use some functional programming!
 
 ```swift
 let solution2 = sets.reduce(0) { sum, set in
-	let intersection = set.reduce(Set(set.first!)) { res,subSet in
+	let intersection = set.reduce(Set(set.first ?? [])) { res,subSet in
 		res.intersection(subSet) }
 	return sum + intersection.count
 }
 solution2 //3288
 ```
+
+## Day 7
+The theme today has been recursion!
+Regex in Swift is quite cumbersome to use. I had a Regex pattern which worked beautifully on the web in the Lea Verou playground but not in Swift. Lost quite a while understanding why.. I still do not know but I solved the challenge differently.
+The best part is the data structure. I ws quite at loss at first. Then I realised a dictionary of an array of tuple would be perfect:  
+`shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.` gets converted to a dic where the key is `shiny gold` and the value an array of two tuples like:  
+`[(1,"dark olive"), (2, "vibrant plum")]`  
+This worked very well, especially in the second part.
+
+This is the code:
+```swift
+var rules = input.lines.compactMap {$0.trimmingCharacters(in: .punctuationCharacters)}
+var rulesDict: [String: [(numberOfBags:Int, bagType: String)]] = [:]
+rules.forEach {
+	if let groups = $0.getTrimmedCapturedGroupsFrom(regexPattern:"([a-z ]+)bags? contain (.+)") {
+		let key = groups[0]
+		let contents = groups[1].split(separator: ",").map {String($0)}
+		contents.forEach { content in
+			if let data = content.getTrimmedCapturedGroupsFrom(regexPattern:"(\\d) (\\w+ \\w+) bags?") {
+				let dataTuple: (numberOfBags:Int, bagType: String) = (numberOfBags: Int(data[0]) ?? 0, bagType: data[1])
+				rulesDict[key, default: []] += [dataTuple]
+			}
+		}
+	}
+}
+
+var cache = [String:Bool]()
+func containsRecursively(bag: String, in dict: [String: [(numberOfBags: Int, bagType: String)]]) -> Bool {
+	if bag == "shiny gold" {return true}
+	if let result = cache[bag] {return result}
+	let bags = dict[bag, default: []]
+	for bag in bags {
+		if containsRecursively(bag: bag.bagType, in: dict) == true {
+			return true
+		}
+		cache[bag.bagType] = false
+	}
+	return false
+}
+
+let solution1 = rulesDict.keys.reduce(0) { count, key in
+	if key != "shiny gold" && containsRecursively(bag: key, in: rulesDict) == true { return count + 1
+	} else { return count }
+}
+// 161
+
+var shinyCache = [String:Int]()
+func countBagsInside(for bag: String, in dict: [String: [(numberOfBags: Int, bagType: String)]]) -> Int {
+	if let cached = shinyCache[bag] {
+		return cached }
+	let contentsOfBag = dict[bag, default: []]
+	if contentsOfBag.isEmpty { return 0 }
+	let total = contentsOfBag.reduce(0) {subTotal, element in
+		subTotal + element.numberOfBags + (element.numberOfBags * countBagsInside(for: element.bagType, in: dict))
+	}
+	shinyCache[bag] = total
+	return total
+}
+
+let solution2 = countBagsInside(for: "shiny gold", in: rulesDict)
+//30899
+
+```
+## Day 8
+
+Relatively easy today. This is my solution. I probably did not need the regex or the enum!
+```swift
+enum Operation: String, CustomStringConvertible {
+	case acc, jmp, nop
+	init?(_ rawValue:String) {
+		self.init(rawValue:rawValue)
+	}
+	var description : String { return self.rawValue }
+}
+
+guard let url = Bundle.main.url(forResource: "input", withExtension: "txt") else {fatalError()}
+guard let input = try? String(contentsOf: url).lines else {fatalError()}
+var instructions: [(operation: Operation, argument: Int)] = input.compactMap { line in
+	if let capturedGroups = line.getCapturedGroupsFrom(regexPattern: "^(\\w{3}) ([+|-]\\d+)") {
+		if let operation = Operation(capturedGroups[0]) {
+			return (operation: operation, argument: Int(capturedGroups[1]) ?? 0)
+		}}
+	return nil
+}
+func runBootCode(bootCode instructions: inout [(operation: Operation, argument: Int)]) -> (infiniteLoop: Bool, accumulator: Int) {
+	var visited: [Int: Bool] = [:];	var counter: Int = 0; var accumulator: Int = 0
+	while true {
+		if counter == instructions.count {
+			return (infiniteLoop: false, accumulator: accumulator) }
+		if visited[counter] != nil {break} else {visited[counter] = true}
+		switch instructions[counter].operation {
+			case .nop: counter += 1
+			case .acc: accumulator += instructions[counter].argument
+				counter += 1
+			case .jmp: counter += instructions[counter].argument
+		}
+	}
+	return (infiniteLoop: true, accumulator: accumulator)
+}
+
+var accumulator = runBootCode(bootCode: &instructions).accumulator
+print("Solution part 1: ", accumulator) //1394
+
+// --- part two ---
+
+outerloop : for (key,_)  in instructions.enumerated() {
+	var instructionsCopy: [(operation: Operation, argument: Int)] = instructions
+	let operation = instructionsCopy[key].operation
+	switch operation {
+		case .nop: instructionsCopy[key].operation = .jmp
+		case .jmp: instructionsCopy[key].operation = .nop
+		default: continue
+	}
+	let result = runBootCode(bootCode: &instructionsCopy)
+	if result.infiniteLoop == true {
+		continue outerloop } else { accumulator = result.accumulator }
+}
+print("Solution part 2: \(accumulator)")//1626
+
+```
+## Day 9
