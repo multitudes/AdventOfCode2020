@@ -404,3 +404,58 @@ print("Solution part 2: \(accumulator)")//1626
 
 ```
 ## Day 9
+Thoughts about today? Well! On the Xcode playgrounds the code took one minute to run. On Xcode was almost instantaneous.
+At first I looked for optimisations.  
+I used the data type `Array<Int>.SubSequence` which is optimized and works by reference! It needs creful handling at times but the compiler will help you.
+For instance, the method `prefix(_ :) ` on my array `[Int]` returns an `ArraySlice<Int>` which is also a `Array<Int>.SubSequence`.
+```swift
+var input = inputLines
+let preamble = 25; var workingQueue = input.prefix(preamble)
+var runningIndex = preamble; let count = input.count
+while runningIndex < count {
+	let next = input[runningIndex]
+	if !checksums(queue: workingQueue, with: next).isValid {
+		print("Solution part 1: ", next) //18272118
+		print("Solution part 2: ", checkForRange(with: next) ?? 0) // 2186361
+		break
+	}
+	workingQueue = workingQueue.dropFirst()
+	workingQueue.append(next)
+	runningIndex += 1
+}
+
+func checkForRange(with invalidNumber: Int) -> Int? {
+	for i in 0..<count {
+		var partialSum = 0; runningIndex = i
+		var subSequence: Array<Int>.SubSequence = []
+		while runningIndex < count - 1 {
+			let currentNumber = input[runningIndex]
+			runningIndex += 1; partialSum += currentNumber
+			subSequence.append(currentNumber)
+			if partialSum >  invalidNumber {break}
+			if partialSum == invalidNumber {
+				if subSequence.count == 1 {continue}
+				return subSequence.sorted().first! + subSequence.sorted().last!
+			}
+		}
+	}
+	return nil
+}
+
+//check the workingQ is valid!
+func checksums(queue: Array<Int>.SubSequence, with next: Int) -> (isValid:Bool, solution: Int? ) {
+	let q = queue.sorted();	let lastIndex = q.count - 1
+	var first:Int = 0; var last: Int = lastIndex
+	if q[lastIndex] + q[lastIndex-1] < next {return (false, next)}
+	while first < last {
+		let sum = q[first] + q[last]
+		switch sum  {
+			case next : return (true, nil)
+			case (..<next): first += 1;	continue
+			default: last -= 1;	continue
+		}
+	}
+	return (false, next)
+}
+```
+
