@@ -19,7 +19,7 @@
 | ✅ [Day 5: Binary Boarding](https://adventofcode.com/2020/day/5)|⭐️|⭐️|
 | ✅ [Day 6: Custom Customs](https://adventofcode.com/2020/day/6)|⭐️|⭐️|
 | ✅ [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)|⭐️|⭐️|
-| ✅ [Day 8: Handy Haversacks](https://adventofcode.com/2020/day/8)|⭐️|⭐️|
+| ✅ [Day 8: Handheld Halting](https://adventofcode.com/2020/day/8)|⭐️|⭐️|
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|||
 
 ## Preparing the environment
