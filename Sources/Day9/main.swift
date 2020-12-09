@@ -2,6 +2,7 @@ import ArgumentParser
 import Foundation
 import AdventKit
 
+
 // Define our parser.
 struct Day9: ParsableCommand {
 	//Declare optional argument. Drag the input file to terminal!
@@ -9,72 +10,101 @@ struct Day9: ParsableCommand {
 	var inputFile : String = ""
 	
 	func run() throws {
-		var input: [String] = []
+		var input: [Int] = []
 		
 		if !inputFile.isEmpty {
 			let url = URL(fileURLWithPath: inputFile)
-			guard let inputString = try? String(contentsOf: url).lines else {throw RuntimeError("Couldn't read from file!")}
-			input = inputString
+			guard let inputLines = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
+			input = inputLines
 		} else {
 			print("Running Day9 Challenge with input from the website\n")
 			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else {
 				fatalError("Input file not found")
 			}
-			guard let inputLines = try? String(contentsOf: url).lines else {fatalError("input not valid")}
+			guard let inputLines = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError("input not valid")}
 			input = inputLines
 		}
-		
-		
-		enum Operation: String, CustomStringConvertible {
-			case acc, jmp, nop
-			init?(_ rawValue:String) {
-				self.init(rawValue:rawValue)
-			}
-			var description : String { return self.rawValue }
-		}
-		
-		var instructions: [(operation: Operation, argument: Int)] = input.compactMap { line in
-			if let capturedGroups = line.getCapturedGroupsFrom(regexPattern: "^(\\w{3}) ([+|-]\\d+)") {
-				if let operation = Operation(capturedGroups[0]) {
-					return (operation: operation, argument: Int(capturedGroups[1]) ?? 0)
-				}}
-			return nil
-		}
-		func runBootCode(bootCode instructions: inout [(operation: Operation, argument: Int)]) -> (infiniteLoop: Bool, accumulator: Int) {
-			var visited: [Int: Bool] = [:];	var counter: Int = 0; var accumulator: Int = 0
-			while true {
-				if counter == instructions.count {
-					return (infiniteLoop: false, accumulator: accumulator) }
-				if visited[counter] != nil {break} else {visited[counter] = true}
-				switch instructions[counter].operation {
-					case .nop: counter += 1
-					case .acc: accumulator += instructions[counter].argument
-						counter += 1
-					case .jmp: counter += instructions[counter].argument
+		func checkForRange(with invalidNumber: Int) -> Int? {
+			for i in 0..<count {
+				var partialSum = 0
+				var subSequence: Array<Int>.SubSequence = []
+				runningIndex = i
+				if input[runningIndex] + input[runningIndex + 1] == invalidNumber {
+					return input[runningIndex] + input[runningIndex + 1]
+				}
+				if input[runningIndex] + input[runningIndex + 1] > invalidNumber {
+					continue
+				}
+				while runningIndex < count - 1 {
+					let currentNumber = input[runningIndex]
+					runningIndex += 1; partialSum += currentNumber
+					subSequence.append(currentNumber)
+					if partialSum >  invalidNumber { break	}
+					if partialSum == invalidNumber {
+						if subSequence.count == 1 { continue }
+						return subSequence.sorted().first! + subSequence.sorted().last!
+					}
 				}
 			}
-			return (infiniteLoop: true, accumulator: accumulator)
+			return nil
 		}
-		
-		var accumulator = runBootCode(bootCode: &instructions).accumulator
-		print("Solution part 1: ", accumulator) //1394
-		
-		// --- part two ---
-		
-		outerloop : for (key,_)  in instructions.enumerated() {
-			var instructionsCopy: [(operation: Operation, argument: Int)] = instructions
-			let operation = instructionsCopy[key].operation
-			switch operation {
-				case .nop: instructionsCopy[key].operation = .jmp
-				case .jmp: instructionsCopy[key].operation = .nop
-				default: continue
+		//check the workingQ is valid!
+		func checksums(queue: Array<Int>.SubSequence, with next: Int) -> (isValid:Bool, solution: Int? ) {
+			let q = queue.sorted()
+			print("working queue sorted ", q)
+			let lastIndex = q.count - 1
+			var first:Int = 0; var last: Int = lastIndex
+			let lasttwosum = q[lastIndex] + q[lastIndex-1]
+			if lasttwosum < next {
+				print("Error // solution is ",next); return (false, next) }
+
+			while first < last {
+				let sum = q[first] + q[last]
+				switch sum  {
+					case next :
+						print("q is ok /// ")
+						return (true, nil)
+					case (..<next) :
+						first += 1
+						continue
+					default:
+						last -= 1
+						continue
+				}
 			}
-			let result = runBootCode(bootCode: &instructionsCopy)
-			if result.infiniteLoop == true {
-				continue outerloop } else { accumulator = result.accumulator }
+			print("Error // solution is ",next)
+			return (false, next)
 		}
-		print("Solution part 2: \(accumulator)")//1626
-		
+
+		let preamble = 25
+		var workingQueue = input.prefix(preamble)
+		var runningIndex = preamble
+		let count = input.count
+
+		var solution1 = 0
+		var solution2 = 0
+
+		while runningIndex < count {
+			let next = input[runningIndex]
+			print("workingQueue", workingQueue, " next ", next)
+
+			if checksums(queue: workingQueue, with: next).isValid { // (true, nil)
+				print("ok")
+			} else {
+				print("ok", next, ">>>>>>>>>>>>>>>>>>>>>>>>")
+				solution1 = next
+				if let solution = checkForRange(with: next)  { print("Solution2 ! ")
+					solution2 = solution
+				}
+				break
+			}
+			workingQueue = workingQueue.dropFirst()
+			workingQueue.append(next)
+			runningIndex += 1
+		}
+
+		print("Solution part 1: ", solution1) //18272118
+		print("Solution part 2: ", solution2) // 2186361
 	}
 }
 
