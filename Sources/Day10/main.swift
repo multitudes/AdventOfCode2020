@@ -10,53 +10,76 @@ struct Day10: ParsableCommand {
 	var inputFile : String = ""
 	
 	func run() throws {
-		var input: [Int] = []
-		
+		var url = URL(string: "")
 		if !inputFile.isEmpty {
 			let url = URL(fileURLWithPath: inputFile)
-			guard let inputLines = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
-			input = inputLines
 		} else {
 			print("Running Day10 Challenge with input from the website\n")
-			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else {
+			guard let fileURL = Bundle.module.url(forResource: "input", withExtension: "txt") else {
 				fatalError("Input file not found")
 			}
-			guard let inputLines = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError("input not valid")}
-			input = inputLines.sorted()
+			url = fileURL
 		}
 
+		enum AdventError: Error {case fileNotFound, fileNotValid}
+
+		struct FileLinesIterator: IteratorProtocol {
+			let lines: [Int]
+			var currentLine: Int = 0
+			init(url: URL) throws {
+				let contents: String = try String(contentsOf: url)
+				lines = contents.lines.compactMap(Int.init).sorted()
+			}
+			mutating func next() -> Int? {
+				guard currentLine < lines.endIndex else { return nil }
+				defer {currentLine += 1}
+				return lines[currentLine]
+			}
+		}
+
+		var input = try? FileLinesIterator(url: url!)
+		var accumulator = 1
+		var partial: Int? = nil
 		var jolts: [Int: Int] = [:]
 		var previousOutput = 0
+		while true {
+			if let adapter = input?.next() {
+				let joltage = adapter-previousOutput
+				previousOutput = adapter
+				jolts[joltage, default: 0] += 1
+				// part 2
+				if joltage == 3 {accumulator *= partial ?? 1; partial = nil}
+				if joltage == 1 {
+					if partial == nil {partial = 1; continue}
+					if partial == 1 {partial = 2; continue}
+					if partial! == 2 {partial! += 2; continue}
+					if partial! == 4 {partial! += 3; continue}
+				}
+				continue
+			}
+			let jolts1 = jolts[1, default: 0]
+			let jolts3 = jolts[3, default: 0] + 1
 
-		for adapter in input {
-			let joltage = adapter-previousOutput
-			previousOutput = adapter
-			jolts[joltage, default: 0] += 1
+			let solution = jolts1 * jolts3 //1904
+			let solution2 = accumulator * (partial ?? 1) //10578455953408
+			break
 		}
-		jolts[3, default: 0] += 1
-		let jolts3 = jolts[3, default: 0]
-		let jolts1 = jolts[1, default: 0]
-		//print(jolts.description)
 
-		let solution = jolts1 * jolts3 //1904
-		print("Solution part 1: ", solution)
-
-
-		let currentAdapter = 0
-		print(input[currentAdapter+1...currentAdapter+3])
+		var currentAdapter = 0
+		let inputSet = Set(input)
 		func checkAdaptersInRange(with currentAdapter: Int) -> Int {
-			if currentAdapter == input.last! { return 1 }
+			if currentAdapter == input.max()! { return 1 }
 			var validSequences = 0
-			for adapter in input where adapter - currentAdapter <= 3 {
-				if Range(currentAdapter+1...currentAdapter+3) ~= adapter {
-					validSequences += checkAdaptersInRange(with: adapter)
+			for i in Range(1...3) {
+				if inputSet.contains(currentAdapter + i) {
+					validSequences += checkAdaptersInRange(with: currentAdapter + i)
 				}
 			}
 			return validSequences
 		}
 
 		let solution2 = checkAdaptersInRange(with: currentAdapter)
-		print("Solution part 2: ", solution2)
+		print(solution2)
 	}
 
 }
