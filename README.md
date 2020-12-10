@@ -462,3 +462,22 @@ func checksums(queue: Array<Int>.SubSequence, with next: Int) -> (isValid:Bool, 
 ```
 
 ## Day 10
+
+Tough one today but fun. 
+
+Part one was quite easy:
+```swift
+var jolts: [Int: Int] = [:]
+var previousOutput = 0
+for adapter in input.enumerated() {
+	let joltage = adapter-previousOutput
+	previousOutput = adapter
+	jolts[joltage, default: 0] += 1
+}
+jolts[3, default: 0] += 1
+let jolts3 = jolts[3, default: 0]
+let jolts1 = jolts[1, default: 0]
+
+let solution = jolts1 * jolts3 //1904
+```
+
