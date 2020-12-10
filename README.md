@@ -23,6 +23,7 @@
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|⭐️|⭐️|
 | ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|🙃|🍄|
 | ✅ [Day 11: ???????????](https://adventofcode.com/2020/day/11)|||
+
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
