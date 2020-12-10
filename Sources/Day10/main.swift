@@ -62,26 +62,11 @@ struct Day10: ParsableCommand {
 
 			let solution = jolts1 * jolts3 //1904
 			let solution2 = accumulator * (partial ?? 1) //10578455953408
+			print("Solution part 1: ", solution) //1904
+			print("Solution part 2: ", solution2) // 10578455953408
 			break
 		}
-
-		var currentAdapter = 0
-		let inputSet = Set(input)
-		func checkAdaptersInRange(with currentAdapter: Int) -> Int {
-			if currentAdapter == input.max()! { return 1 }
-			var validSequences = 0
-			for i in Range(1...3) {
-				if inputSet.contains(currentAdapter + i) {
-					validSequences += checkAdaptersInRange(with: currentAdapter + i)
-				}
-			}
-			return validSequences
-		}
-
-		let solution2 = checkAdaptersInRange(with: currentAdapter)
-		print(solution2)
 	}
-
 }
 
 // Run the parser.
