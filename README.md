@@ -21,8 +21,8 @@
 | ✅ [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)|⭐️|⭐️|
 | ✅ [Day 8: Handheld Halting](https://adventofcode.com/2020/day/8)|⭐️|⭐️|
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|⭐️|⭐️|
-| ✅ [Day 10: ??????????](https://adventofcode.com/2020/day/10)|||
-
+| ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|🙃|🍄|
+| ✅ [Day 11: ???????????](https://adventofcode.com/2020/day/11)|||
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
@@ -460,3 +460,4 @@ func checksums(queue: Array<Int>.SubSequence, with next: Int) -> (isValid:Bool, 
 }
 ```
 
+## Day 10
