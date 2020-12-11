@@ -21,8 +21,10 @@
 | ✅ [Day 7: Handy Haversacks](https://adventofcode.com/2020/day/7)|⭐️|⭐️|
 | ✅ [Day 8: Handheld Halting](https://adventofcode.com/2020/day/8)|⭐️|⭐️|
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|⭐️|⭐️|
-| ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|🙃|🍄|
-| ✅ [Day 11: ???????????](https://adventofcode.com/2020/day/11)|||
+| ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|⭐️|⭐️|
+| ✅ [Day 11: Seating System](https://adventofcode.com/2020/day/11)|⭐️|⭐️|
+| ✅ [Day 12: ?????????](https://adventofcode.com/2020/day/12)|||
+
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
@@ -461,3 +463,61 @@ func checksums(queue: Array<Int>.SubSequence, with next: Int) -> (isValid:Bool, 
 ```
 
 ## Day 10
+
+Tough one today but fun. 
+
+Part one was quite easy but part two made me going back to pen and paper and question my own sanity. At first I solved part two with a recursive algorithm but it would take too long on the main input and my mini started melting. So I found out a mathematical solution instead.  
+Observing the input file I could see a pattern there... and a pattern it was! 😄 I just had to put it into code and...  
+the solution came quickly and wrong!  
+I had an error of one in translating the pattern. A sequence of five consecutive adapters would get me 7 different arrangements not 6 as I counted at first!! 🤦🏻‍♂️
+Anyway this is the code. Not terribly proud of the wall of ifs but refactoring will be for another day :)
+
+```swift
+enum AdventError: Error {case fileNotFound, fileNotValid}
+
+struct FileLinesIterator: IteratorProtocol {
+	let lines: [Int]
+	var currentLine: Int = 0
+	init(filename: String) throws {
+		guard let url = Bundle.main.url(forResource: filename, withExtension: nil) else {throw AdventError.fileNotFound}
+		let contents: String = try String(contentsOf: url)
+		lines = contents.lines.compactMap(Int.init).sorted()
+	}
+	mutating func next() -> Int? {
+		guard currentLine < lines.endIndex else { return nil }
+		defer {currentLine += 1}
+		return lines[currentLine]
+	}
+}
+
+var input = try? FileLinesIterator(filename: "input.txt")
+var accumulator = 1
+var partial: Int? = nil
+var jolts: [Int: Int] = [:]
+var previousOutput = 0
+while true {
+	if let adapter = input?.next() {
+		let joltage = adapter-previousOutput
+		previousOutput = adapter
+		jolts[joltage, default: 0] += 1
+		// part 2
+		if joltage == 3 {accumulator *= partial ?? 1; partial = nil}
+		if joltage == 1 {
+			if partial == nil {partial = 1; continue}
+			if partial == 1 {partial = 2; continue}
+			if partial! == 2 {partial! += 2; continue}
+			if partial! == 4 {partial! += 3; continue}
+		}
+		continue
+	}
+	let jolts1 = jolts[1, default: 0]
+	let jolts3 = jolts[3, default: 0] + 1
+
+	let solution = jolts1 * jolts3 //1904
+	let solution2 = accumulator * (partial ?? 1) //10578455953408
+	print("Solution part 1: ", solution) //1904
+	print("Solution part 2: ", solution2) // 10578455953408
+	break
+}
+```
+
