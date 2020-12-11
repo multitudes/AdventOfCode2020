@@ -10,7 +10,7 @@ struct Day10: ParsableCommand {
 	var inputFile : String = ""
 	
 	func run() throws {
-		var url = URL(string: "")
+		var input: [String] = []
 		if !inputFile.isEmpty {
 			let url = URL(fileURLWithPath: inputFile)
 		} else {
@@ -18,54 +18,82 @@ struct Day10: ParsableCommand {
 			guard let fileURL = Bundle.module.url(forResource: "input", withExtension: "txt") else {
 				fatalError("Input file not found")
 			}
-			url = fileURL
+			guard let inputFile: [String] = try? String(contentsOf: fileURL).components(separatedBy: .whitespacesAndNewlines) else {fatalError()}
+			input = inputFile
 		}
 
-		enum AdventError: Error {case fileNotFound, fileNotValid}
-
-		struct FileLinesIterator: IteratorProtocol {
-			let lines: [Int]
-			var currentLine: Int = 0
-			init(url: URL) throws {
-				let contents: String = try String(contentsOf: url)
-				lines = contents.lines.compactMap(Int.init).sorted()
-			}
-			mutating func next() -> Int? {
-				guard currentLine < lines.endIndex else { return nil }
-				defer {currentLine += 1}
-				return lines[currentLine]
+		enum SeatState: Character {
+			case occupied = "#", empty = "L", floor = ".", padding = " "
+			static func toggle(_ seatState: SeatState) -> SeatState {
+				if seatState == .occupied {return .empty }
+				if seatState == .empty {return .occupied }
+				return seatState
 			}
 		}
 
-		var input = try? FileLinesIterator(url: url!)
-		var accumulator = 1
-		var partial: Int? = nil
-		var jolts: [Int: Int] = [:]
-		var previousOutput = 0
-		while true {
-			if let adapter = input?.next() {
-				let joltage = adapter-previousOutput
-				previousOutput = adapter
-				jolts[joltage, default: 0] += 1
-				// part 2
-				if joltage == 3 {accumulator *= partial ?? 1; partial = nil}
-				if joltage == 1 {
-					if partial == nil {partial = 1; continue}
-					if partial == 1 {partial = 2; continue}
-					if partial! == 2 {partial! += 2; continue}
-					if partial! == 4 {partial! += 3; continue}
+
+		// create seatmap with padding
+		var seatMap = input.compactMap { string -> [Character]? in
+			if !string.isEmpty {
+				let newString = " " + string + " "
+				return Array(newString)
+			}
+			return nil
+		}
+		let inputColumns = seatMap[0].count
+		let padding = Array(repeating: Character(" "), count: inputColumns)
+		seatMap.insert(padding, at: 0)
+		seatMap.append(padding)
+		print(seatMap)
+
+		func checkAdjacentsAreOccupied(row i: Int, col k: Int) -> Int {
+			var adjacents = 0
+			if seatMap[i-1][k-1] == SeatState.occupied.rawValue { adjacents += 1 }
+			if seatMap[i-1][k] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i-1][k+1] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i][k-1] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i][k+1] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i+1][k-1] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i+1][k] == SeatState.occupied.rawValue {adjacents += 1 }
+			if seatMap[i+1][k+1] == SeatState.occupied.rawValue {adjacents += 1 }
+			return adjacents
+		}
+		let maxColumns = seatMap[0].count
+		let maxRows = seatMap.count
+		//start
+
+		func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState ) ->  (nextMap: [[Character]], isSameState: Bool, occupiedSeats: Int) {
+			var nextSeatMap = seatMap
+			var occupiedSeats = 0
+			for i in 1..<maxRows - 1 {
+				print(seatMap[i])
+				for k in 1..<maxColumns - 1 {
+					if seatMap[i][k] == SeatState.occupied.rawValue {occupiedSeats += 1 }
+					if ". ".contains(seatMap[i][k]) {continue}
+					let adjacents = checkAdjacentsAreOccupied(row: i, col: k)
+					if currentSeat == SeatState.empty {
+						if adjacents == 0 {	nextSeatMap[i][k] = SeatState.occupied.rawValue }
+					} else if currentSeat == SeatState.occupied {
+						if adjacents >= 4  { nextSeatMap[i][k] = SeatState.empty.rawValue }
+					}
 				}
-				continue
 			}
-			let jolts1 = jolts[1, default: 0]
-			let jolts3 = jolts[3, default: 0] + 1
-
-			let solution = jolts1 * jolts3 //1904
-			let solution2 = accumulator * (partial ?? 1) //10578455953408
-			print("Solution part 1: ", solution) //1904
-			print("Solution part 2: ", solution2) // 10578455953408
-			break
+			for map in nextSeatMap {
+				print(map.map { String($0)}.joined())}
+			print("same than last? ",seatMap == nextSeatMap, "occupiedSeats", occupiedSeats)
+			return (nextMap: nextSeatMap, isSameState: seatMap == nextSeatMap, occupiedSeats: occupiedSeats)
 		}
+		var isSame = false
+		var seatState = SeatState(rawValue: "L")!
+		var occupiedSeats = 0
+		while isSame == false {
+
+			(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState)
+			seatState = SeatState.toggle(seatState)
+
+		}
+
+		print("solution: ", occupiedSeats)
 	}
 }
 
