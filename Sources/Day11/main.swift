@@ -30,19 +30,26 @@ struct Day10: ParsableCommand {
 				return seatState
 			}
 		}
+
+		var isSame = false;	var seatState = SeatState.empty; var occupiedSeats = 0
+		var seatMap:[[Character]] = []
+
 		// create seatmap with padding
-		var seatMap = input.compactMap { string -> [Character]? in
-			if !string.isEmpty {
-				let newString = " " + string + " "
-				return Array(newString)
+		func createSeatMapWithPadding() -> [[Character]]{
+			var seatMap = input.compactMap { string -> [Character]? in
+				if !string.isEmpty {
+					let newString = " " + string + " "
+					return Array(newString)
+				}
+				return nil
 			}
-			return nil
+			let inputColumns = seatMap[0].count
+			let padding = Array(repeating: Character(" "), count: inputColumns)
+			seatMap.insert(padding, at: 0)
+			seatMap.append(padding)
+			return seatMap
 		}
 
-		let inputColumns = seatMap[0].count
-		let padding = Array(repeating: Character(" "), count: inputColumns)
-		seatMap.insert(padding, at: 0)
-		seatMap.append(padding)
 
 		func checkAdjacentsAreOccupied(row i: Int, col k: Int, partTwo: Bool ) -> Int {
 			var adjacents = 0
@@ -74,7 +81,7 @@ struct Day10: ParsableCommand {
 			}
 		}
 
-		func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState, is partTwo: Bool = false ) ->  (nextMap: [[Character]], isSameState: Bool, occupiedSeats: Int) {
+		func oneSeatingShuffle(_ seatMap: [[Character]], with currentSeat: SeatState, partTwo: Bool = false ) ->  (nextMap: [[Character]], isSameState: Bool, occupiedSeats: Int) {
 			let maxColumns = seatMap[0].count; let maxRows = seatMap.count
 			var nextSeatMap = seatMap; var occupiedSeats = 0
 			var maxVisibleOccupiedSeats: Int = 4; if partTwo { maxVisibleOccupiedSeats = 5}
@@ -93,27 +100,28 @@ struct Day10: ParsableCommand {
 			}
 			for map in nextSeatMap {
 				print(map.map { String($0)}.joined())}
-			print("same than last? ",seatMap == nextSeatMap, "occupiedSeats", occupiedSeats)
+//			print("same than last? ",seatMap == nextSeatMap, "occupiedSeats", occupiedSeats)
 			return (nextMap: nextSeatMap, isSameState: seatMap == nextSeatMap, occupiedSeats: occupiedSeats)
 		}
 
-
-		var isSame = false
-		var seatState = SeatState(rawValue: "L")!
-		var occupiedSeats = 0
-		//while isSame == false {
-		//	(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState)
-		//	seatState = SeatState.toggle(seatState)
-		//}
-		//print("solution: ", occupiedSeats)
-
-		isSame = false
-		var partTwo: Bool = true
+		// part 1 --
+		func resetState() {
+			isSame = false;	seatState = SeatState.empty; occupiedSeats = 0; seatMap = createSeatMapWithPadding()
+		}
+		resetState()
 		while isSame == false {
-			(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState, is: partTwo)
+			(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState)
 			seatState = SeatState.toggle(seatState)
 		}
-		print("solution: ", occupiedSeats)
+		let solution1 = occupiedSeats
+
+		resetState()
+		while isSame == false {
+			(seatMap, isSame, occupiedSeats) = oneSeatingShuffle(seatMap, with: seatState, partTwo: true)
+			seatState = SeatState.toggle(seatState)
+		}
+		print("Solution part 1: ", solution1) // 2354
+		print("Solution part 2: ", occupiedSeats) //2072
 
 	}
 }
