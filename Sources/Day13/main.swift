@@ -13,7 +13,7 @@ struct Day12: ParsableCommand {
 		var input: [String] = []
 		if !inputFile.isEmpty {
 			let url = URL(fileURLWithPath: inputFile)
-			guard let inputFile = try? String(contentsOf: url).components(separatedBy: .whitespacesAndNewlines) else {fatalError()}
+			guard let inputFile = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
 			input = inputFile
 		} else {
 			print("Running Day12 Challenge with input from the website\n")
@@ -24,7 +24,6 @@ struct Day12: ParsableCommand {
 			input = inputFile
 		}
 
-		
 
 
 	}

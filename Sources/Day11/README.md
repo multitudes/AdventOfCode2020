@@ -122,7 +122,7 @@ The empty seat below would see no occupied seats:
 Also, people seem to be more tolerant than you expected: it now takes five or more visible occupied seats for an occupied seat to become empty (rather than four or more from the previous rules). The other rules still apply: empty seats that see no occupied seats become occupied, seats matching no rule don't change, and floor never changes.
 
 Given the same starting layout as above, these new rules cause the seating area to shift around as follows:
-
+```
 L.LL.LL.LL
 LLLLLLL.LL
 L.L.L..L..
@@ -133,6 +133,8 @@ L.LLLLL.LL
 LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL
+```
+```
 #.##.##.##
 #######.##
 #.#.#..#..
@@ -143,6 +145,8 @@ L.LLLLL.LL
 ##########
 #.######.#
 #.#####.##
+```
+```
 #.LL.LL.L#
 #LLLLLL.LL
 L.L.L..L..
@@ -153,6 +157,8 @@ L.LLLLL.LL
 LLLLLLLLL#
 #.LLLLLL.L
 #.LLLLL.L#
+```
+```
 #.L#.##.L#
 #L#####.LL
 L.#.#..#..
@@ -163,6 +169,8 @@ L.#.#..#..
 LLL####LL#
 #.L#####.L
 #.L####.L#
+```
+```
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
@@ -173,6 +181,8 @@ L.LL.LL.L#
 LLLLLLLLL#
 #.LLLLL#.L
 #.L#LL#.L#
+```
+```
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
@@ -183,6 +193,8 @@ L.L#.#L.L#
 LLL###LLL#
 #.LLLLL#.L
 #.L#LL#.L#
+```
+```
 #.L#.L#.L#
 #LLLLLL.LL
 L.L.L..#..
@@ -193,6 +205,8 @@ L.L#.LL.L#
 LLL###LLL#
 #.LLLLL#.L
 #.L#LL#.L#
+```
+
 Again, at this point, people stop shifting around and the seating area reaches equilibrium. Once this occurs, you count 26 occupied seats.
 
 Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached, how many seats end up occupied?
