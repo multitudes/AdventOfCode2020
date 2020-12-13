@@ -4,7 +4,7 @@ import AdventKit
 
 
 // Define our parser.
-struct Day12: ParsableCommand {
+struct Day13: ParsableCommand {
 	//Declare optional argument. Drag the input file to terminal!
 	@Option(name: [.short, .customLong("inputFile")], help: "Specify the path to the input file.")
 	var inputFile : String = ""
@@ -13,10 +13,10 @@ struct Day12: ParsableCommand {
 		var input: [String] = []
 		if !inputFile.isEmpty {
 			let url = URL(fileURLWithPath: inputFile)
-			guard let inputFile = try? String(contentsOf: url).lines.compactMap(Int.init) else {fatalError()}
+			guard let inputFile = try? String(contentsOf: url).components(separatedBy: .whitespacesAndNewlines) else {fatalError()}
 			input = inputFile
 		} else {
-			print("Running Day12 Challenge with input from the website\n")
+			print("Running Day13 Challenge with input from the website\n")
 			guard let fileURL = Bundle.module.url(forResource: "input", withExtension: "txt") else {
 				fatalError("Input file not found")
 			}
@@ -30,6 +30,6 @@ struct Day12: ParsableCommand {
 }
 
 // Run the parser.
-Day12.main()
+Day13.main()
 
 

@@ -23,7 +23,8 @@
 | ✅ [Day 9: Encoding Error](https://adventofcode.com/2020/day/9)|⭐️|⭐️|
 | ✅ [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)|⭐️|⭐️|
 | ✅ [Day 11: Seating System](https://adventofcode.com/2020/day/11)|⭐️|⭐️|
-| ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|☔️|🌊|
+| ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
+| ✅ [Day 12: Shuttle Search](https://adventofcode.com/2020/day/13)|🚌|🛫| 
 
 ## Preparing the environment
 
@@ -633,3 +634,7 @@ print("Solution part 2: ", SeatState.occupiedSeats) //2072
 
 ## Day 12
 
+The ferry trip has been so far quite relaxing. 
+Much easier today, but rewriting the rules in part two makes for two different files, unless... I put them back together now?    
+Now got a bit long... but readable, maybe.
+The code is here: [playground day12](https://github.com/multitudes/AdventOfCode2020Playground.playground/blob/main/Pages/Day12.xcplaygroundpage/Contents.swift)

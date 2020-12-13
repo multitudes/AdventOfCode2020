@@ -103,6 +103,13 @@ let package = Package(
 			exclude: ["README.md"],
 			resources: [.process("Resources")]
 		),
+		.target(
+			name: "Day13",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
 		.testTarget(
 			name: "Day2Tests",
 			dependencies: ["AdventOfCode2020"]),
