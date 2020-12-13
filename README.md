@@ -638,3 +638,13 @@ The ferry trip has been so far quite relaxing.
 Much easier today, but rewriting the rules in part two makes for two different files, unless... I put them back together now?    
 Now got a bit long... but readable, maybe.
 The code is here: [playground day12](https://github.com/multitudes/AdventOfCode2020Playground.playground/blob/main/Pages/Day12.xcplaygroundpage/Contents.swift)
+
+The only thing which kinda made me think is that Xcode gives me a warning here:   
+`trajectory.map { runPartTwo($0.action, amount: $0.param )}` 
+because the result of `map` is unused. For playgrounds it is fine though? Of course! Playgrounds accept it because the result is displayed in the right column.  
+The correct way to write this in Xcode is with a `forEach`:  
+`trajectory.forEach { runPartTwo($0.action, amount: $0.param )}`
+
+## Day13
+
+
