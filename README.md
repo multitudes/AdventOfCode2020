@@ -650,7 +650,7 @@ The correct way to write this in Xcode is with a `forEach`:
 
 This is the code for day13 - I had to think hard for part two, when the first match happens, at which interval will be repeated? getting that interval was key to a fast result..   
 however in my case brute force would have beaten me in (coding)speed!  I guess I love getting confused. It took me a while to realize that. For instance if there are two busses, the first leaving at intervals of 2 min and the second at intervals of three... the configuration will be repeated every 6 minutes! so when I have another bus leaving every 5 minutes I do not need to check every minute, only at every 6 min interval! and when I find that match, it will repeat every 30min etc.   
-I could calculate it very quickly. It would have taken hours otherwise!  
+I could calculate it very quickly. It would have taken hours of mac mini time otherwise!  
 Also interesting to observe, the puzzle works only for departures intervals which are prime numbers!   
 
 ```swift
