@@ -701,3 +701,7 @@ let solution2 = busses.reduce(time) { matching(bus: $1) }
 print("Solution part 2: ", solution2 ) //408270049879073
 ```
 ## Day14
+
+What I said on twitter: "This is bat shit crazy" and I mean it! 😅
+Part one was no problem but part two took 30 minutes on my 2018 Mac Mini i9 processor! 
+There is something I still do not know about operations in memory. Clearly creating binary strings from decimals is expensive. 
