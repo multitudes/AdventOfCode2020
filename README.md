@@ -30,7 +30,7 @@
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
-This year I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
+This year I will do use the playgrounds but also I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
 You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)  
 I created a package with some common used functions and structs/classes, the `AdventKit`:  
 https://github.com/multitudes/AdventKit/blob/main/README.md
@@ -702,6 +702,6 @@ print("Solution part 2: ", solution2 ) //408270049879073
 ```
 ## Day14
 
-What I said on twitter: "This is bat shit crazy" and I mean it! 😅
-Part one was no problem but part two took 30 minutes on my 2018 Mac Mini i9 processor! 
-There is something I still do not know about operations in memory. Clearly creating binary strings from decimals is expensive. 
+What I said on twitter: "This is bat shit crazy" and I mean it! 😅  
+Part one was no problem but part two took 30 minutes on my 2018 Mac Mini i9 processor!   
+There is something I still do not know about operations in memory. Clearly creating binary strings from decimals is expensive.  
