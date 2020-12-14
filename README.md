@@ -25,7 +25,7 @@
 | ✅ [Day 11: Seating System](https://adventofcode.com/2020/day/11)|⭐️|⭐️|
 | ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
 | ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
-| ✅ [Day 14:--------------------](https://adventofcode.com/2020/day/14)||| 
+| ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)||| 
 
 ## Preparing the environment
 
@@ -700,3 +700,4 @@ let solution2 = busses.reduce(time) { matching(bus: $1) }
 
 print("Solution part 2: ", solution2 ) //408270049879073
 ```
+## Day14
