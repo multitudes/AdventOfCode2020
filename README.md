@@ -26,14 +26,13 @@
 | ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
 | ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
 | ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
-| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|🌵|🌵| 
-
+| ✅ [Day 15: ?](https://adventofcode.com/2020/day/15)||| 
 
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
 This year I will do use the playgrounds but also I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
-You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift).  
+You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)  
 I created a package with some common used functions and structs/classes, the `AdventKit`:  
 https://github.com/multitudes/AdventKit/blob/main/README.md
 
@@ -68,7 +67,7 @@ do {
 Compare this to this python code 🙃 :   
 ```python
 with open('input.txt', 'r') as file:
-    data = {int(number) for number in file}
+	data = {int(number) for number in file}
 ```   
 
 Anyway the SPM would not find my `input.txt` file! After trying everything including looking in `FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)` and trying to put the input file in different levels of folders, I found out the answer in the Apple docs:  
@@ -194,7 +193,7 @@ let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.
 Today was a relaxing boarding day, even if our chqaracter dropped his boarding pass after all the work we did to validate his credentials!
 (You can see the whole boarding video [here](https://www.youtube.com/watch?v=oAHbLRjF0vo))
 <p align="center">
-  <img src="/images/boarding2.gif" width="600"  title="boarding"></img>
+  <img src="/images/boarding2.png" width="600"  title="boarding"></img>
 </p>
 
 The interesting bit has been, how to convert a string to a binary and then an integer?  
@@ -710,7 +709,12 @@ There is something I still do not know about operations in memory. Clearly creat
 I still do not know how to make it faster.  
 What I did was look in the bitmask for the first occurrence of X, get the substring in both the bitmask and the memory address, convert to binary, do the bitwise OR with the `|` operator and keep it for later. I split in this way the whole binary string and I have a series of chunks. Now depending how many floating bits I had (the `X`) I create the necessary `0` and `1` permutation. ex 3 floating bits give me 8 permutations.  
 I replace the `X` between the chunks with the values and join the chunks together, convert the binary string to Int and allocate the input value at that memory address phew!   
-The next day I read this article by Natascha Fadeeva and gave me some ideas :)   
-[link](https://tanaschita.com/posts/20201214-working-with-bits-in-swift/)
+<p align="center">
+  <img src="/images/batshitCrazy.png" width="600"  title="boarding"></img>
+</p>
+The next day I read this [article by Natascha Fadeeva](https://tanaschita.com/posts/20201214-working-with-bits-in-swift/) and gave me some ideas :)   
+
 
 ## Day15
+
+
