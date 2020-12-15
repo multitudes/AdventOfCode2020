@@ -26,6 +26,8 @@
 | ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
 | ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
 | ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
+| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|🌵|🌵| 
+
 
 ## Preparing the environment
 
@@ -703,5 +705,12 @@ print("Solution part 2: ", solution2 ) //408270049879073
 ## Day14
 
 What I said on twitter: "This is bat shit crazy" and I mean it! 😅  
-Part one was no problem but part two took 30 minutes on my 2018 Mac Mini i9 processor!   
-There is something I still do not know about operations in memory. Clearly creating binary strings from decimals is expensive.  
+Part one was no problem but part two took 10 minutes on my 2018 Mac Mini i9 processor!   
+There is something I still do not know about operations in memory. Clearly creating binary strings from strings is expensive.
+I still do not know how to make it faster.  
+What I did was look in the bitmask for the first occurrence of X, get the substring in both the bitmask and the memory address, convert to binary, do the bitwise OR with the `|` operator and keep it for later. I split in this way the whole binary string and I have a series of chunks. Now depending how many floating bits I had (the `X`) I create the necessary `0` and `1` permutation. ex 3 floating bits give me 8 permutations.  
+I replace the `X` between the chunks with the values and join the chunks together, convert the binary string to Int and allocate the input value at that memory address phew!   
+The next day I read this article by Natascha Fadeeva and gave me some ideas :)   
+[link](https://tanaschita.com/posts/20201214-working-with-bits-in-swift/)
+
+## Day15
