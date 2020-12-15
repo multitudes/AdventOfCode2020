@@ -1,112 +1,95 @@
-# [Day 13 - Shuttle Search](https://adventofcode.com/2020/day/13)
+# [Day 14 - Docking Data](https://adventofcode.com/2020/day/14)
 
 ## Part One
 
-Your ferry can make it safely to a nearby port, but it won't get much further. When you call to book another ship, you discover that no ships embark from that port to your vacation island. You'll need to get from the port to the nearest airport.
+As your ferry approaches the sea port, the captain asks for your help again. The computer system that runs this port isn't compatible with the docking program on the ferry, so the docking parameters aren't being correctly initialized in the docking program's memory.
 
-Fortunately, a shuttle bus service is available to bring you from the sea port to the airport! Each bus has an ID number that also indicates how often the bus leaves for the airport.
+After a brief inspection, you discover that the sea port's computer system uses a strange bitmask system in its initialization program. Although you don't have the correct decoder chip handy, you can emulate it in software!
 
-Bus schedules are defined based on a timestamp that measures the number of minutes since some fixed reference point in the past. At timestamp 0, every bus simultaneously departed from the sea port. After that, each bus travels to the airport, then various other locations, and finally returns to the sea port to repeat its journey forever.
+The initialization program (your puzzle input) can either update the bitmask or write a value to memory. Values and memory addresses are both 36-bit unsigned integers. For example, ignoring bitmasks for a moment, a line like mem[8] = 11 would write the value 11 to memory address 8.
 
-The time this loop takes a particular bus is also its ID number: the bus with ID 5 departs from the sea port at timestamps 0, 5, 10, 15, and so on. The bus with ID 11 departs at 0, 11, 22, 33, and so on. If you are there when the bus departs, you can ride that bus to the airport!
+The bitmask is always given as a string of 36 bits, written with the most significant bit (representing 2^35) on the left and the least significant bit (2^0, that is, the 1s bit) on the right. The current bitmask is applied to values immediately before they are written to memory: a 0 or 1 overwrites the corresponding bit in the value, while an X leaves the bit in the value unchanged.
 
-Your notes (your puzzle input) consist of two lines. The first line is your estimate of the earliest timestamp you could depart on a bus. The second line lists the bus IDs that are in service according to the shuttle company; entries that show x must be out of service, so you decide to ignore them.
+For example, consider the following program:
 
-To save time once you arrive, your goal is to figure out the earliest bus you can take to the airport. (There will be exactly one such bus.)
+mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+mem[8] = 11
+mem[7] = 101
+mem[8] = 0
+This program starts by specifying a bitmask (mask = ....). The mask it specifies will overwrite two bits in every written value: the 2s bit is overwritten with 0, and the 64s bit is overwritten with 1.
 
-For example, suppose you have the following notes:
-```
-939
-7,13,x,x,59,x,31,19
-```
-Here, the earliest timestamp you could depart is 939, and the bus IDs in service are 7, 13, 59, 31, and 19. Near timestamp 939, these bus IDs depart at the times marked D:
-```
-time   bus 7   bus 13  bus 59  bus 31  bus 19
-929      .       .       .       .       .
-930      .       .       .       D       .
-931      D       .       .       .       D
-932      .       .       .       .       .
-933      .       .       .       .       .
-934      .       .       .       .       .
-935      .       .       .       .       .
-936      .       D       .       .       .
-937      .       .       .       .       .
-938      D       .       .       .       .
-939      .       .       .       .       .
-940      .       .       .       .       .
-941      .       .       .       .       .
-942      .       .       .       .       .
-943      .       .       .       .       .
-944      .       .       D       .       .
-945      D       .       .       .       .
-946      .       .       .       .       .
-947      .       .       .       .       .
-948      .       .       .       .       .
-949      .       D       .       .       .
-```
-The earliest bus you could take is bus ID 59. It doesn't depart until timestamp 944, so you would need to wait 944 - 939 = 5 minutes before it departs. Multiplying the bus ID by the number of minutes you'd need to wait gives 295.
+The program then attempts to write the value 11 to memory address 8. By expanding everything out to individual bits, the mask is applied as follows:
 
-What is the ID of the earliest bus you can take to the airport multiplied by the number of minutes you'll need to wait for that bus?
+value:  000000000000000000000000000000001011  (decimal 11)
+mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+result: 000000000000000000000000000001001001  (decimal 73)
+So, because of the mask, the value 73 is written to memory address 8 instead. Then, the program tries to write 101 to address 7:
 
-## Part Two 
+value:  000000000000000000000000000001100101  (decimal 101)
+mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+result: 000000000000000000000000000001100101  (decimal 101)
+This time, the mask has no effect, as the bits it overwrote were already the values the mask tried to set. Finally, the program tries to write 0 to address 8:
 
-The shuttle company is running a contest: one gold coin for anyone that can find the earliest timestamp such that the first bus ID departs at that time and each subsequent listed bus ID departs at that subsequent minute. (The first line in your input is no longer relevant.)
+value:  000000000000000000000000000000000000  (decimal 0)
+mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+result: 000000000000000000000000000001000000  (decimal 64)
+64 is written to address 8 instead, overwriting the value that was there previously.
 
-For example, suppose you have the same list of bus IDs as above:
+To initialize your ferry's docking program, you need the sum of all values left in memory after the initialization program completes. (The entire 36-bit address space begins initialized to the value 0 at every address.) In the above example, only two values in memory are not zero - 101 (at address 7) and 64 (at address 8) - producing a sum of 165.
 
-`7,13,x,x,59,x,31,19`
-An x in the schedule means there are no constraints on what bus IDs must depart at that time.
+Execute the initialization program. What is the sum of all values left in memory after it completes?
 
-This means you are looking for the earliest timestamp (called t) such that:
+Your puzzle answer was 16003257187056.
 
-Bus ID 7 departs at timestamp t.
-Bus ID 13 departs one minute after timestamp t.
-There are no requirements or restrictions on departures at two or three minutes after timestamp t.
-Bus ID 59 departs four minutes after timestamp t.
-There are no requirements or restrictions on departures at five minutes after timestamp t.
-Bus ID 31 departs six minutes after timestamp t.
-Bus ID 19 departs seven minutes after timestamp t.
-The only bus departures that matter are the listed bus IDs at their specific offsets from t. Those bus IDs can depart at other times, and other bus IDs can depart at those times. For example, in the list above, because bus ID 19 must depart seven minutes after the timestamp at which bus ID 7 departs, bus ID 7 will always also be departing with bus ID 19 at seven minutes after timestamp t.
+## Part Two
 
-In this example, the earliest timestamp at which this occurs is 1068781:
-```
-time     bus 7   bus 13  bus 59  bus 31  bus 19
-1068773    .       .       .       .       .
-1068774    D       .       .       .       .
-1068775    .       .       .       .       .
-1068776    .       .       .       .       .
-1068777    .       .       .       .       .
-1068778    .       .       .       .       .
-1068779    .       .       .       .       .
-1068780    .       .       .       .       .
-1068781    D       .       .       .       .
-1068782    .       D       .       .       .
-1068783    .       .       .       .       .
-1068784    .       .       .       .       .
-1068785    .       .       D       .       .
-1068786    .       .       .       .       .
-1068787    .       .       .       D       .
-1068788    D       .       .       .       D
-1068789    .       .       .       .       .
-1068790    .       .       .       .       .
-1068791    .       .       .       .       .
-1068792    .       .       .       .       .
-1068793    .       .       .       .       .
-1068794    .       .       .       .       .
-1068795    D       D       .       .       .
-1068796    .       .       .       .       .
-1068797    .       .       .       .       .
-```
-In the above example, bus ID 7 departs at timestamp 1068788 (seven minutes after t). This is fine; the only requirement on that minute is that bus ID 19 departs then, and it does.
+For some reason, the sea port's computer system still can't communicate with your ferry's docking program. It must be using version 2 of the decoder chip!
 
-Here are some other examples:
+A version 2 decoder chip doesn't modify the values being written at all. Instead, it acts as a memory address decoder. Immediately before a value is written to memory, each bit in the bitmask modifies the corresponding bit of the destination memory address in the following way:
 
-The earliest timestamp that matches the list 17,x,13,19 is 3417.
-67,7,59,61 first occurs at timestamp 754018.
-67,x,7,59,61 first occurs at timestamp 779210.
-67,7,x,59,61 first occurs at timestamp 1261476.
-1789,37,47,1889 first occurs at timestamp 1202161486.
-However, with so many bus IDs in your list, surely the actual earliest timestamp will be larger than 100000000000000!
+If the bitmask bit is 0, the corresponding memory address bit is unchanged.
+If the bitmask bit is 1, the corresponding memory address bit is overwritten with 1.
+If the bitmask bit is X, the corresponding memory address bit is floating.
+A floating bit is not connected to anything and instead fluctuates unpredictably. In practice, this means the floating bits will take on all possible values, potentially causing many memory addresses to be written all at once!
 
-What is the earliest timestamp such that all of the listed bus IDs depart at offsets matching their positions in the list?
+For example, consider the following program:
+
+mask = 000000000000000000000000000000X1001X
+mem[42] = 100
+mask = 00000000000000000000000000000000X0XX
+mem[26] = 1
+When this program goes to write to memory address 42, it first applies the bitmask:
+
+address: 000000000000000000000000000000101010  (decimal 42)
+mask:    000000000000000000000000000000X1001X
+result:  000000000000000000000000000000X1101X
+After applying the mask, four bits are overwritten, three of which are different, and two of which are floating. Floating bits take on every possible combination of values; with two floating bits, four actual memory addresses are written:
+
+000000000000000000000000000000011010  (decimal 26)
+000000000000000000000000000000011011  (decimal 27)
+000000000000000000000000000000111010  (decimal 58)
+000000000000000000000000000000111011  (decimal 59)
+Next, the program is about to write to memory address 26 with a different bitmask:
+
+address: 000000000000000000000000000000011010  (decimal 26)
+mask:    00000000000000000000000000000000X0XX
+result:  00000000000000000000000000000001X0XX
+This results in an address with three floating bits, causing writes to eight memory addresses:
+
+000000000000000000000000000000010000  (decimal 16)
+000000000000000000000000000000010001  (decimal 17)
+000000000000000000000000000000010010  (decimal 18)
+000000000000000000000000000000010011  (decimal 19)
+000000000000000000000000000000011000  (decimal 24)
+000000000000000000000000000000011001  (decimal 25)
+000000000000000000000000000000011010  (decimal 26)
+000000000000000000000000000000011011  (decimal 27)
+The entire 36-bit address space still begins initialized to the value 0 at every address, and you still need the sum of all values left in memory at the end of the program. In this example, the sum is 208.
+
+Execute the initialization program using an emulator for a version 2 decoder chip. What is the sum of all values left in memory after it completes?
+
+Your puzzle answer was 3219837697833.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+
 
