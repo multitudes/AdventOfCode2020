@@ -26,7 +26,8 @@
 | ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
 | ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
 | ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
-| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)||| 
+| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
+| ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|🌵|🌵| 
 
 ## Preparing the environment
 
@@ -717,4 +718,49 @@ The next day I read this [article by Natascha Fadeeva](https://tanaschita.com/po
 
 ## Day15
 
+I did not get why part two was so easy this time? Maybe I used the correct data structure for part one?
+Got the result straight away.  🤔 weird, but a good day to relax and have a break 😂  
+I used a dict to store the last (two?) indices.  
+The keys are the numbers and the values are a tuple containing:the index where last seen, and the previous index (optional) which can be nil. if not nil then the number is not new,  etc.
+
+```
+let startingNumbers = [14,3,1,0,9,5]
+
+let inputIndices = startingNumbers.indices.map {$0 + 1}
+// the key is the spoken number / the value is the last index seen
+let tuples = zip(startingNumbers, inputIndices)
+let inputDict: [Int: Int] = Dictionary(uniqueKeysWithValues: tuples)
+var visitedNumbers: [Int: (idx: Int, previousIdx: Int?)] = inputDict.mapValues { value in
+	(idx: value, previousIdx: nil)
+}
+var idx = inputIndices.count
+var last = startingNumbers[idx - 1]
+
+func speakNumber() {
+	idx += 1
+	if let visited = visitedNumbers[last] {
+		if let previousIdx = visited.previousIdx {
+			last = visited.idx - previousIdx
+			if let visitedAge = visitedNumbers[last] {
+				visitedNumbers[last] = (idx: idx, previousIdx: visitedAge.idx)
+			} else {
+				visitedNumbers[last] = (idx: idx, previousIdx: nil)
+			}
+		} else {
+			last = 0;
+			if let visitedZero = visitedNumbers[0] {
+				visitedNumbers[0] = (idx: idx, previousIdx: visitedZero.idx)
+			}
+		}
+	}
+}
+
+while idx < 30000000 {
+	if idx == 2020 {print("solution part 1: ", last)} //614
+	speakNumber()
+}
+print("Solution part 2: ", last) // 1065
+```
+
+## Day 16
 
