@@ -26,11 +26,13 @@
 | ✅ [Day 12: Rain Risk](https://adventofcode.com/2020/day/12)|⭐️|⭐️|
 | ✅ [Day 13: Shuttle Search](https://adventofcode.com/2020/day/13)|⭐️|⭐️| 
 | ✅ [Day 14: Docking Data](https://adventofcode.com/2020/day/14)|⭐️|⭐️| 
+| ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
+| ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|🌵|🌵| 
 
 ## Preparing the environment
 
 [Last year](https://github.com/multitudes/Advent-of-Code-2019/blob/master/README.md) I did the challenges in the Xcode Swift playgrounds.  
-This year I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
+This year I will do use the playgrounds but also I wanna try something different with the [Swift package manager](https://swift.org/getting-started/#using-the-package-manager).
 You can read more in my blog post [here](https://laurentbrusa.hashnode.dev/preparing-xcode-for-the-advent-of-code-2020-in-swift)  
 I created a package with some common used functions and structs/classes, the `AdventKit`:  
 https://github.com/multitudes/AdventKit/blob/main/README.md
@@ -192,7 +194,7 @@ let solution2 = input.filter {Passport(passportData: $0).validatedCredentials }.
 Today was a relaxing boarding day, even if our chqaracter dropped his boarding pass after all the work we did to validate his credentials!
 (You can see the whole boarding video [here](https://www.youtube.com/watch?v=oAHbLRjF0vo))
 <p align="center">
-  <img src="/images/boarding2.gif" width="600"  title="boarding"></img>
+  <img src="/images/boarding2.png" width="600"  title="boarding"></img>
 </p>
 
 The interesting bit has been, how to convert a string to a binary and then an integer?  
@@ -701,3 +703,64 @@ let solution2 = busses.reduce(time) { matching(bus: $1) }
 print("Solution part 2: ", solution2 ) //408270049879073
 ```
 ## Day14
+
+What I said on twitter: "This is bat shit crazy" and I mean it! 😅  
+Part one was no problem but part two took 10 minutes on my 2018 Mac Mini i9 processor!   
+There is something I still do not know about operations in memory. Clearly creating binary strings from strings is expensive.
+I still do not know how to make it faster.  
+What I did was look in the bitmask for the first occurrence of X, get the substring in both the bitmask and the memory address, convert to binary, do the bitwise OR with the `|` operator and keep it for later. I split in this way the whole binary string and I have a series of chunks. Now depending how many floating bits I had (the `X`) I create the necessary `0` and `1` permutation. ex 3 floating bits give me 8 permutations.  
+I replace the `X` between the chunks with the values and join the chunks together, convert the binary string to Int and allocate the input value at that memory address phew!   
+<p align="center">
+  <img src="/images/batshitCrazy.png" width="600"  title="boarding"></img>
+</p>
+The next day I read this [article by Natascha Fadeeva](https://tanaschita.com/posts/20201214-working-with-bits-in-swift/) and gave me some ideas :)   
+
+
+## Day15
+
+I did not get why part two was so easy this time? Maybe I used the correct data structure for part one?
+Got the result straight away.  🤔 weird, but a good day to relax and have a break 😂  
+I used a dict to store the last (two?) indices.  
+The keys are the numbers and the values are a tuple containing:the index where last seen, and the previous index (optional) which can be nil. if not nil then the number is not new,  etc.
+
+```
+let startingNumbers = [14,3,1,0,9,5]
+
+let inputIndices = startingNumbers.indices.map {$0 + 1}
+// the key is the spoken number / the value is the last index seen
+let tuples = zip(startingNumbers, inputIndices)
+let inputDict: [Int: Int] = Dictionary(uniqueKeysWithValues: tuples)
+var visitedNumbers: [Int: (idx: Int, previousIdx: Int?)] = inputDict.mapValues { value in
+	(idx: value, previousIdx: nil)
+}
+var idx = inputIndices.count
+var last = startingNumbers[idx - 1]
+
+func speakNumber() {
+	idx += 1
+	if let visited = visitedNumbers[last] {
+		if let previousIdx = visited.previousIdx {
+			last = visited.idx - previousIdx
+			if let visitedAge = visitedNumbers[last] {
+				visitedNumbers[last] = (idx: idx, previousIdx: visitedAge.idx)
+			} else {
+				visitedNumbers[last] = (idx: idx, previousIdx: nil)
+			}
+		} else {
+			last = 0;
+			if let visitedZero = visitedNumbers[0] {
+				visitedNumbers[0] = (idx: idx, previousIdx: visitedZero.idx)
+			}
+		}
+	}
+}
+
+while idx < 30000000 {
+	if idx == 2020 {print("solution part 1: ", last)} //614
+	speakNumber()
+}
+print("Solution part 2: ", last) // 1065
+```
+
+## Day 16
+
