@@ -8,7 +8,7 @@ arrival location: 34-502 or 528-951
 arrival station: 30-650 or 662-957
 arrival platform: 50-148 or 160-966
 arrival track: 27-572 or 587-969
-class: 46-893 or 913-964
+classs: 46-893 or 913-964
 duration: 36-161 or 179-962
 price: 38-294 or 311-965
 route: 26-391 or 397-962

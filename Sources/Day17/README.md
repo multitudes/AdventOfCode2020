@@ -1,44 +1,146 @@
-# [Day 16: Ticket Translation ](https://adventofcode.com/2020/day/16)
+# [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)
 
 ## Part One
-As you're walking to yet another connecting flight, you realize that one of the legs of your re-routed trip coming up is on a high-speed train. However, the train ticket you were given is in a language you don't understand. You should probably figure out what it says before you get to the train station after the next flight.
 
-Unfortunately, you can't actually read the words on the ticket. You can, however, read the numbers, and so you figure out the fields these tickets must have and the valid ranges for values in those fields.
+As your flight slowly drifts through the sky, the Elves at the Mythical Information Bureau at the North Pole contact you. They'd like some help debugging a malfunctioning experimental energy source aboard one of their super-secret imaging satellites.
 
-You collect the rules for ticket fields, the numbers on your ticket, and the numbers on other nearby tickets for the same train service (via the airport security cameras) together into a single document you can reference (your puzzle input).
+The experimental energy source is based on cutting-edge technology: a set of Conway Cubes contained in a pocket dimension! When you hear it's having problems, you can't help but agree to take a look.
 
-The rules for ticket fields specify a list of fields that exist somewhere on the ticket and the valid ranges of values for each field. For example, a rule like class: 1-3 or 5-7 means that one of the fields in every ticket is named class and can be any value in the ranges 1-3 or 5-7 (inclusive, such that 3 and 5 are both valid in this field, but 4 is not).
+The pocket dimension contains an infinite 3-dimensional grid. At every integer 3-dimensional coordinate (x,y,z), there exists a single cube which is either active or inactive.
 
-Each ticket is represented by a single line of comma-separated values. The values are the numbers on the ticket in the order they appear; every ticket has the same format. For example, consider this ticket:
-```
-.--------------------------------------------------------.
-| ????: 101    ?????: 102   ??????????: 103     ???: 104 |
-|                                                        |
-| ??: 301  ??: 302             ???????: 303      ??????? |
-| ??: 401  ??: 402           ???? ????: 403    ????????? |
-'--------------------------------------------------------'
-```
-Here, ? represents text in a language you don't understand. This ticket might be represented as 101,102,103,104,301,302,303,401,402,403; of course, the actual train tickets you're looking at are much more complicated. In any case, you've extracted just the numbers in such a way that the first number is always the same specific field, the second number is always a different specific field, and so on - you just don't know what each position actually means!
+In the initial state of the pocket dimension, almost all cubes start inactive. The only exception to this is a small flat region of cubes (your puzzle input); the cubes in this region start in the specified active (#) or inactive (.) state.
 
-Start by determining which tickets are completely invalid; these are tickets that contain values which aren't valid for any field. Ignore your ticket for now.
+The energy source then proceeds to boot up by executing six cycles.
 
-For example, suppose you have the following notes:
+Each cube only ever considers its neighbors: any of the 26 other cubes where any of their coordinates differ by at most 1. For example, given the cube at x=1,y=2,z=3, its neighbors include the cube at x=2,y=2,z=2, the cube at x=0,y=2,z=3, and so on.
 
-class: 1-3 or 5-7
-row: 6-11 or 33-44
-seat: 13-40 or 45-50
+During a cycle, all cubes simultaneously change their state according to the following rules:
 
-your ticket:
-7,1,14
+If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active. Otherwise, the cube becomes inactive.
+If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
+The engineers responsible for this experimental energy source would like you to simulate the pocket dimension and determine what the configuration of cubes should be at the end of the six-cycle boot process.
 
-nearby tickets:
-7,3,47
-40,4,50
-55,2,20
-38,6,12
-It doesn't matter which position corresponds to which field; you can identify invalid nearby tickets by considering only whether tickets contain values that are not valid for any field. In this example, the values on the first nearby ticket are all valid for at least one field. This is not true of the other three nearby tickets: the values 4, 55, and 12 are are not valid for any field. Adding together all of the invalid values produces your ticket scanning error rate: 4 + 55 + 12 = 71.
+For example, consider the following initial state:
 
-Consider the validity of the nearby tickets you scanned. What is your ticket scanning error rate?
+.#.
+..#
+###
+Even though the pocket dimension is 3-dimensional, this initial state represents a small 2-dimensional slice of it. (In particular, this initial state defines a 3x3x1 region of the 3-dimensional space.)
 
+Simulating a few cycles from this initial state produces the following configurations, where the result of each cycle is shown layer-by-layer at each given z coordinate (and the frame of view follows the active cells in each cycle):
+
+Before any cycles:
+
+z=0
+.#.
+..#
+###
+
+
+After 1 cycle:
+
+z=-1
+#..
+..#
+.#.
+
+z=0
+#.#
+.##
+.#.
+
+z=1
+#..
+..#
+.#.
+
+
+After 2 cycles:
+
+z=-2
+.....
+.....
+..#..
+.....
+.....
+
+z=-1
+..#..
+.#..#
+....#
+.#...
+.....
+
+z=0
+##...
+##...
+#....
+....#
+.###.
+
+z=1
+..#..
+.#..#
+....#
+.#...
+.....
+
+z=2
+.....
+.....
+..#..
+.....
+.....
+
+
+After 3 cycles:
+
+z=-2
+.......
+.......
+..##...
+..###..
+.......
+.......
+.......
+
+z=-1
+..#....
+...#...
+#......
+.....##
+.#...#.
+..#.#..
+...#...
+
+z=0
+...#...
+.......
+#......
+.......
+.....##
+.##.#..
+...#...
+
+z=1
+..#....
+...#...
+#......
+.....##
+.#...#.
+..#.#..
+...#...
+
+z=2
+.......
+.......
+..##...
+..###..
+.......
+.......
+.......
+After the full six-cycle boot process completes, 112 cubes are left in the active state.
+
+Starting with your given initial configuration, simulate six cycles. How many cubes are left in the active state after the sixth cycle?
 ## Part Two 
 

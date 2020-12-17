@@ -95,7 +95,9 @@ struct Day16: ParsableCommand {
 		print(rules.keys)
 		var valuesPerIndex: [Int: Set<Int>] = [:]
 		var dictOfMatchingRulesAndIndices: [String: Set<Int>] = [:]
+
 		for idx in 0..<myTicket.count {
+
 			print("index ", idx)
 			for ticket in validTickets {
 				var field = valuesPerIndex[idx, default: []]
@@ -109,6 +111,7 @@ struct Day16: ParsableCommand {
 			for key in rules.keys {
 				print(key)
 				if checkFieldKeyContains(set: valuesPerIndex[idx]! , key: key) {
+					print(key, "contains", idx)
 					matchingRules = dictOfMatchingRulesAndIndices[key, default: []]
 					matchingRules.insert(idx)
 					dictOfMatchingRulesAndIndices[key] = matchingRules
@@ -141,6 +144,7 @@ struct Day16: ParsableCommand {
 			}
 		}
 		print(sortedByValuetuples.description)
+		print(sortedByValuetuples)
 //		print("Solution part 1: ",solution) //
 //		print("Solution part 2: ") //
 
