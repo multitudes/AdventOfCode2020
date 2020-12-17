@@ -138,6 +138,62 @@ let package = Package(
 			exclude: ["README.md"],
 			resources: [.process("Resources")]
 		),
+		.target(
+			name: "Day18",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day19",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day20",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day21",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day22",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day23",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day24",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
+		.target(
+			name: "Day25",
+			dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				.product(name: "AdventKit", package: "AdventKit")],
+			exclude: ["README.md"],
+			resources: [.process("Resources")]
+		),
 		.testTarget(
 			name: "Day2Tests",
 			dependencies: ["AdventOfCode2020"]),
