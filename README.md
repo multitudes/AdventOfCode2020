@@ -767,7 +767,9 @@ print("Solution part 2: ", last) // 1065
 
 ## Day 16
 
-
+This was as strange one. Part two was mostly spent creating a dictionary, then collecting data then inverting it , then sifting through..
+An interesting problem has been how to remove duplicates from a dictionary of arrays of Ints. I solved it and got the solution. Every ticket number has an index and that would match only one set of rules at the end.   
+Well, some match more than one set, this is why I started from the ones which have just one match and remove them from the rest of the solution. So at the end I get a neat dictionary where every index for a field of my ticket has only one set of rules left and a field name :)
 
 ## Day 17
 Conway in 3D! and part two in 4D!  
