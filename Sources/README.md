@@ -29,7 +29,15 @@
 | ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
-| ✅ [Day 18: ](https://adventofcode.com/2020/day/18)|🌵|| 
+| ✅ [Day 18: Operation Order](https://adventofcode.com/2020/day/18)|⭐️|⭐️|
+| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|🌵|
+| ✅ [Day 20: ](https://adventofcode.com/2020/day/20)|🌵||
+| ✅ [Day 21: ](https://adventofcode.com/2020/day/21)|🌵||
+| ✅ [Day 22: ](https://adventofcode.com/2020/day/22)|🌵||
+| ✅ [Day 23: ](https://adventofcode.com/2020/day/23)|🌵||
+| ✅ [Day 24: ](https://adventofcode.com/2020/day/24)|🌵||
+| ✅ [Day 25: ](https://adventofcode.com/2020/day/25)|🌵||
+
 
 ## Preparing the environment
 
@@ -767,4 +775,136 @@ print("Solution part 2: ", last) // 1065
 
 ## Day 16
 
+This was as strange one. Part two was mostly spent creating a dictionary, then collecting data then inverting it , then sifting through..
+An interesting problem has been how to remove duplicates from a dictionary of arrays of Ints. I solved it and got the solution. Every ticket number has an index and that would match only one set of rules at the end.   
+Well, some match more than one set, this is why I started from the ones which have just one match and remove them from the rest of the solution. So at the end I get a neat dictionary where every index for a field of my ticket has only one set of rules left and a field name :)
 
+## Day 17
+Conway in 3D! and part two in 4D!  
+Restarted for the third time.  Losing brain cells along the way or I am not so concentrated today? 17 days of daily challenges showing its toll? 
+But the feeling of happiness completing this challenge cannot be overstated.  
+I was about to give up, but I found a way to use sets which is waaaay faster and I managed to get the example working. 😀
+
+Also turns out that having the right approach in part one made part two a breeze! 
+
+My solution today is too long for a screenshot :) Maybe I can find a better solution to find adjacent position one day,  but for now I just iterate. Also it is still quite fast using a set for active cubes and a set for inactive ones. Not bad. Also scalable to higher dimensions ;)
+
+## Day 18
+
+Took me more than one day to finish. 
+There are better ways but I was looking for a function to evaluate arythmetical expression in Swift and I came acreoss NSExpression, so I gave it a try.  
+It looks like this, but it uses the usual precedence for the operators of course. The trick is to use it only for 2 operands. 
+```swift
+func compute(_ string: String) -> Int {
+	let exp: NSExpression = NSExpression(format: string)
+	return exp.expressionValue(with:nil, context: nil) as! Int
+}
+let str = "(5 * (4 - 2))"
+compute(str) // 10
+```
+Then I used recursion and a buffer. This is part one where I had the idea to pass the array of token as a reference (part two is similar but I keep the index count and the array is passed as value andd the buffer keeps track of the operations):
+```swift
+var solution = 0
+for line in input {
+	print(line)
+	var expression = Array(line).map {String($0)}
+	solution += Int(evaluate(&expression))!
+}
+print("solution = ", solution)
+
+func evaluate(_ expression: inout [String]) -> String {
+	print(expression)
+	var buffer: [String] = []
+	while !expression.isEmpty {
+		var token = expression.removeFirst()
+		print("token ", token, "-------- buffer ----- ", buffer)
+		if token == "(" {
+			print("recursion!", "evaluate ", expression )
+			buffer.append(evaluate(&expression))
+			continue
+		}
+		if buffer.count == 3 {
+			print("computing ", buffer.joined())
+			let computed = compute(buffer.joined())
+			buffer = [computed]
+			print("result in buffer ",  buffer, expression )
+		}
+		if token == ")"  {
+			// back from recursion
+			print("back from recursion ! with  ",   buffer.first!  )
+			return buffer.first!
+		}
+		if token != ")" || token != "(" {
+			buffer.append(token)}
+
+	}
+	print(buffer)
+	if buffer.count == 3 {
+		print("computing ", buffer.joined())
+		let computed = compute(buffer.joined())
+		buffer = [computed]
+		print("result in buffer ",  buffer, expression )
+	}
+	return buffer[0]
+}
+
+```
+
+## Day 19
+
+Took some time to understand the problem. Luckily I quickly realized that recursion would not be an option because it would bring a 2^n complexity, and this mean where n is the number of rules! 😳
+So I went for regex instead.  I dinamically created a regex out of the rules and it worked fine. Regexes are so underrated. Unbelievable how fast they can be!  
+For optimization I create the Regex out of the loop because they are expensive!
+
+```swift
+guard let inputFile = try? String(contentsOf: url).lines else {fatalError()}
+
+let input = inputFile.split {$0 == "" }
+let rules = input[0]
+let messages = input[1]
+var rulesDict: [Int: String] = [:]
+
+for rule in rules {
+	if let regex = rule.getCapturedGroupsFrom(regexPattern: "(\\d+):[ \"]{1,2}(\\w)[\"]{1}") {
+		let key = Int(regex[0])!
+		let expr = " " + regex[1] + " "
+		rulesDict[key] = expr
+	} else if let regex = rule.getCapturedGroupsFrom(regexPattern: "(\\d+):(.+)") {
+		let key = Int(regex[0])!
+		var expr = regex[1]
+		expr = ("(" + expr + " )")//.replacingOccurrences(of: " ", with: "")
+		rulesDict[key] = expr
+	}
+}
+
+func createRegex(from ruleZero: String) -> String {
+	let arrayRules = ruleZero.split(separator: " ").map {String($0)}
+	var regexPattern = arrayRules
+	for (idx,rule) in arrayRules.enumerated() {
+		if rule == "(" || rule == ")" || rule == "a" || rule == "b" || rule == "|" {continue}
+		print("rules",rule)
+		if let itemToResolve = rulesDict[Int(String(rule))!] {
+			print(itemToResolve)
+			regexPattern[idx] = itemToResolve
+		}
+	}
+	return regexPattern.joined(separator: " ")
+}
+
+var regexPattern = (rulesDict[0] ?? "")
+while !regexPattern.allSatisfy({"ab()| ".contains($0)}) {
+	regexPattern = createRegex(from: regexPattern)
+}
+print(regexPattern)
+regexPattern = "^" + regexPattern.replacingOccurrences(of:" ", with: "") + "$"
+guard let regex = try? NSRegularExpression(pattern: regexPattern) else { fatalError("invalid regex expression \n") }
+var count = 0
+for message in messages {
+	let range = NSRange(location: 0, length: message.utf16.count)
+	if regex.firstMatch(in: message, options: [], range: range) != nil { count += 1}
+}
+print("Solution part one : ", count)
+
+```
+
+```
