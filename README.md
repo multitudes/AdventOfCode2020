@@ -29,7 +29,15 @@
 | ✅ [Day 15: Rambunctious Recitation](https://adventofcode.com/2020/day/15)|⭐️|⭐️| 
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
-| ✅ [Day 18: Operation Order ](https://adventofcode.com/2020/day/18)|🌵|| 
+| ✅ [Day 18: Operation Order](https://adventofcode.com/2020/day/18)|⭐️|⭐️|
+| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|🌵||
+| ✅ [Day 20: ](https://adventofcode.com/2020/day/20)|🌵||
+| ✅ [Day 21: ](https://adventofcode.com/2020/day/21)|🌵||
+| ✅ [Day 22: ](https://adventofcode.com/2020/day/22)|🌵||
+| ✅ [Day 23: ](https://adventofcode.com/2020/day/23)|🌵||
+| ✅ [Day 24: ](https://adventofcode.com/2020/day/24)|🌵||
+| ✅ [Day 25: ](https://adventofcode.com/2020/day/25)|🌵||
+
 
 ## Preparing the environment
 
@@ -782,3 +790,63 @@ Also turns out that having the right approach in part one made part two a breeze
 My solution today is too long for a screenshot :) Maybe I can find a better solution to find adjacent position one day,  but for now I just iterate. Also it is still quite fast using a set for active cubes and a set for inactive ones. Not bad. Also scalable to higher dimensions ;)
 
 ## Day 18
+
+Took me more than one day to finish. 
+There are better ways but I was looking for a function to evaluate arythmetical expression in Swift and I came acreoss NSExpression, so I gave it a try.  
+It looks like this, but it uses the usual precedence for the operators of course. The trick is to use it only for 2 operands. 
+```swift
+func compute(_ string: String) -> Int {
+	let exp: NSExpression = NSExpression(format: string)
+	return exp.expressionValue(with:nil, context: nil) as! Int
+}
+let str = "(5 * (4 - 2))"
+compute(str) // 10
+```
+Then I used recursion and a buffer. This is part one where I had the idea to pass the array of token as a reference (part two is similar but I keep the index count and the array is passed as value andd the buffer keeps track of the operations):
+```swift
+var solution = 0
+for line in input {
+	print(line)
+	var expression = Array(line).map {String($0)}
+	solution += Int(evaluate(&expression))!
+}
+print("solution = ", solution)
+
+func evaluate(_ expression: inout [String]) -> String {
+	print(expression)
+	var buffer: [String] = []
+	while !expression.isEmpty {
+		var token = expression.removeFirst()
+		print("token ", token, "-------- buffer ----- ", buffer)
+		if token == "(" {
+			print("recursion!", "evaluate ", expression )
+			buffer.append(evaluate(&expression))
+			continue
+		}
+		if buffer.count == 3 {
+			print("computing ", buffer.joined())
+			let computed = compute(buffer.joined())
+			buffer = [computed]
+			print("result in buffer ",  buffer, expression )
+		}
+		if token == ")"  {
+			// back from recursion
+			print("back from recursion ! with  ",   buffer.first!  )
+			return buffer.first!
+		}
+		if token != ")" || token != "(" {
+			buffer.append(token)}
+
+	}
+	print(buffer)
+	if buffer.count == 3 {
+		print("computing ", buffer.joined())
+		let computed = compute(buffer.joined())
+		buffer = [computed]
+		print("result in buffer ",  buffer, expression )
+	}
+	return buffer[0]
+}
+
+```
+
