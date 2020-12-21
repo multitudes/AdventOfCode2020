@@ -30,9 +30,9 @@
 | ✅ [Day 16: Ticket Translation](https://adventofcode.com/2020/day/16)|⭐️|⭐️| 
 | ✅ [Day 17: Conway Cubes](https://adventofcode.com/2020/day/17)|⭐️|⭐️| 
 | ✅ [Day 18: Operation Order](https://adventofcode.com/2020/day/18)|⭐️|⭐️|
-| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|🌵|
-| ✅ [Day 20: ](https://adventofcode.com/2020/day/20)|🌵||
-| ✅ [Day 21: ](https://adventofcode.com/2020/day/21)|🌵||
+| ✅ [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)|⭐️|⭐️|
+| ✅ [Day 20: Jurassic Jigsaw](https://adventofcode.com/2020/day/20)|🌵||
+| ✅ [Day 21: Allergen Assessment ](https://adventofcode.com/2020/day/21)|🌵||
 | ✅ [Day 22: ](https://adventofcode.com/2020/day/22)|🌵||
 | ✅ [Day 23: ](https://adventofcode.com/2020/day/23)|🌵||
 | ✅ [Day 24: ](https://adventofcode.com/2020/day/24)|🌵||
@@ -907,4 +907,19 @@ print("Solution part one : ", count)
 
 ```
 
-```
+## Day19
+This is the winning regex. See the strategically positioned curly brackets ;) It results from RegexA{x,} plus RegexA{y} plus RegexB{y}  phewwww!!
+
+<p align="center">
+  <img src="/images/regex.png" width="600"  title="regex"></img>
+</p>
+
+Well to be fair that only one of the winning regexes because they are dynamically created. I iterate changing the values in the curly braces of course (just saying for completeness, even I know nobody would bother to check :)
+
+Quite a tough one, but regexes are phenomenal, I never realised they had so much power!   
+If I paste this regex in Lea Verou web page regex playground it works! 
+https://projects.verou.me/regexplained/
+And they are so fast! How do they accomplish this? 🤔
+
+
+https://projects.verou.me/regexplained/
