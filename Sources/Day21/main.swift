@@ -108,9 +108,3 @@ struct Day21: ParsableCommand {
 
 // Run the parser.
 Day21.main()
-
-extension String {
-	var linesNotEmpty: [String] {
-		components(separatedBy: .newlines).filter {$0 != "" }
-	}
-}
