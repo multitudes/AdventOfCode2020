@@ -15,7 +15,7 @@ The crab selects a destination cup: the cup with a label equal to the current cu
 The crab places the cups it just picked up so that they are immediately clockwise of the destination cup. They keep the same order as when they were picked up.
 The crab selects a new current cup: the cup which is immediately clockwise of the current cup.
 For example, suppose your cup labeling were 389125467. If the crab were to do merely 10 moves, the following changes would occur:
-
+```
 -- move 1 --
 cups: (3) 8  9  1  2  5  4  6  7 
 pick up: 8, 9, 1
@@ -67,7 +67,8 @@ pick up: 7, 4, 1
 destination: 3
 
 -- final --
-cups:  5 (8) 3  7  4  1  9  2  6 
+cups:  5 (8) 3  7  4  1  9  2  6
+```
 In the above example, the cups' values are the labels as they appear moving clockwise around the circle; the current cup is marked with ( ).
 
 After the crab is done, what order will the cups be in? Starting after the cup labeled 1, collect the other cups' labels clockwise into a single string with no extra characters; each number except 1 should appear exactly once. In the above example, after 10 moves, the cups clockwise from 1 are labeled 9, 2, 6, 5, and so on, producing 92658374. If the crab were to complete all 100 moves, the order after cup 1 would be 67384529.
