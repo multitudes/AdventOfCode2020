@@ -2,8 +2,89 @@ import ArgumentParser
 import Foundation
 import AdventKit
 
+class Cup: Equatable {
+	static func == (lhs: Cup, rhs: Cup) -> Bool {
+		lhs.label == rhs.label
+	}
+	init(label: Int) {
+		self.label = label
+	}
+	var label: Int
+	var next: Cup?
+	var previous: Cup?
+}
 
+class Cups: CustomStringConvertible {
+	var currentCup: Cup?
+	var destination: Cup?
+	var tail: Cup?
+	var cupOne: Cup?
+	var cupCount = 0
+
+	init(input: [Int]) {
+		for i in 0..<input.count {
+			self.append(value: input[i])
+		}
+		for i in (input.count)...1_000 {
+			self.append(value: i )
+		}
+	}
+
+	public func move() {
+	}
+
+	public func cupAt(index: Int) -> Cup? {
+	  // index has to be bigger than zero
+	  if index >= 0 {
+		// I start with head, my current cup
+		var cup = currentCup
+		var i = index
+		// decrementing of i steps until I get
+		while cup != nil {
+		  if i == 0 {
+			//print("return cup at \(index) ")
+			return cup }
+		  i -= 1
+		  cup = cup!.next
+		}
+	  }
+		// not found
+	  return nil
+	}
+
+	public func append(value: Int) {
+		cupCount += 1
+		let newCup = Cup(label: value)
+		if let lastCup = tail {
+			newCup.previous = lastCup
+			lastCup.next = newCup
+		} else {
+			currentCup = newCup
+		}
+		tail = newCup
+	}
+
+	public func contains(_ label: Int) -> Bool {
+		var node = currentCup
+			while node != nil {
+				if node?.label == label { return true }
+				node = node!.next
+			}
+		return false
+	}
+
+	public var description: String {
+		var text = ""
+		var node = currentCup
+		for _ in 0..<cupCount {
+			text += "\(node!.label)"
+			node = node!.next
+		}
+		return text
+	}
+}
 // Define our parser.
+
 struct Day23: ParsableCommand {
 	//Declare optional argument. Drag the input file to terminal!
 	@Option(name: [.short, .customLong("inputFile")], help: "Specify the path to the input file.")
@@ -31,115 +112,35 @@ struct Day23: ParsableCommand {
 		let inputLabels = Array(input.map {Int(String($0))!})
 		print(inputLabels)
 
-		class Cup: Equatable {
-			static func == (lhs: Cup, rhs: Cup) -> Bool {
-				lhs.label == rhs.label
-			}
-			init(label: Int) {
-				self.label = label
-			}
-			var label: Int
-			var next: Cup?
-			var previous: Cup?
-		}
 
-		class Cups: CustomStringConvertible {
-			var currentCup: Cup?
-			var destination: Cup?
-			var tail: Cup?
-			var cupOne: Cup?
-			var cupCount = 0
 
-			init(input: [Int]) {
-				for i in 0..<input.count {
-					self.append(value: input[i])
-				}
-				for i in (input.count)...1_000 {
-					self.append(value: i )
-				}
-			}
-
-			public func move() {
-			}
-
-			public func cupAt(index: Int) -> Cup? {
-			  // index has to be bigger than zero
-			  if index >= 0 {
-				// I start with head, my current cup
-				var cup = currentCup
-				var i = index
-				// decrementing of i steps until I get
-				while cup != nil {
-				  if i == 0 {
-					//print("return cup at \(index) ")
-					return cup }
-				  i -= 1
-				  cup = cup!.next
-				}
-			  }
-				// not found
-			  return nil
-			}
-
-			public func append(value: Int) {
-				cupCount += 1
-				let newCup = Cup(label: value)
-				if let lastCup = tail {
-					newCup.previous = lastCup
-					lastCup.next = newCup
-				} else {
-					currentCup = newCup
-				}
-				tail = newCup
-			}
-
-			public func contains(_ label: Int) -> Bool {
-				var node = currentCup
-					while node != nil {
-						if node?.label == label { return true }
-						node = node!.next
-					}
-				return false
-			}
-
-			public var description: String {
-				var text = ""
-				var node = currentCup
-				for _ in 0..<cupCount {
-					text += "\(node!.label)"
-					node = node!.next
-				}
-				return text
-			}
-		}
-
-		var game = Cups(input: inputLabels)
+		let game = Cups(input: inputLabels)
 
 		game.tail?.next = game.currentCup
 		game.currentCup?.previous = game.tail
 
 		func move() {
 			print("currentCup \(game.currentCup!.label)")
-			game.currentCup?.label
-			game.tail?.label
-			game.tail?.next?.label
-			game.cupAt(index: 0)!.label // currentcup
-			game.cupAt(index: 10)!.label // currentcup
+//			game.currentCup?.label
+//			game.tail?.label
+//			game.tail?.next?.label
+//			game.cupAt(index: 0)!.label // currentcup
+//			game.cupAt(index: 10)!.label // currentcup
 			var pickedCupsArray: [Int] = []
 			for i in 1...3 {
 				pickedCupsArray.append(game.cupAt(index: i)!.label)
 			}
-			pickedCupsArray
+//			pickedCupsArray
 			let threeCups = Cups(input: pickedCupsArray)
 			var next = game.cupAt(index: 4)!
-			next.label
+//			next.label
 		//	threeCups.description
 		//	threeCups.currentCup?.label //8
 		//	threeCups.tail?.label //1
 
 			// make the cut - just taking away the three cups at this stage
 			game.currentCup!.next = next
-			game.currentCup!.next?.label // 2
+//			game.currentCup!.next?.label // 2
 
 			// look for destination cup - (currentLabel - 1) in cups
 			var currentLabelMinusOne = game.currentCup!.label - 1
@@ -179,7 +180,7 @@ struct Day23: ParsableCommand {
 			// new currentcup is right on the next cup
 			game.currentCup = game.currentCup?.next
 			print("new current cup \(game.currentCup!.label)")
-			game.currentCup?.label
+//			game.currentCup?.label
 		}
 
 		for i in 0..<10 {
@@ -187,9 +188,9 @@ struct Day23: ParsableCommand {
 		move()
 		}
 
-		let one = game
+		//let one = game
 
-		var solution = 0
+		let solution = 0
 		print("solution ", solution)
 
 	}
