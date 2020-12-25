@@ -16,7 +16,7 @@ struct Day22: ParsableCommand {
 			guard let inputFile = try? String(contentsOf: url).lines else {fatalError()}
 			input = inputFile.split {$0 == "" }.map {Array($0) }
 		} else {
-			print("Running Day17 Challenge with input from the website\n")
+			print("Running Day22 Challenge with input from the website\n")
 			guard let url = Bundle.module.url(forResource: "input", withExtension: "txt") else { fatalError()}
 			//guard let url = Bundle.module.url(forResource: "Day22-example", withExtension: "txt") else { fatalError()}
 
@@ -111,7 +111,7 @@ struct Day22: ParsableCommand {
 		range = Range(1...winningDeck.count).reversed()
 		let score = zip(range, winningDeck).reduce(0) { $0 + $1.0 * $1.1 }
 
-		print("Winner is player: \(result) with score: ",score)
+		print("Part two : winner is player: \(result) with score: ",score)
 	}
 
 }

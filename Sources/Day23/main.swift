@@ -22,8 +22,6 @@ struct Day23: ParsableCommand {
 			input = inputFile
 		}
 		print(input)
-
-
 	}
 
 }
