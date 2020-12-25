@@ -1,61 +1,168 @@
-# [Day 19: Monster Messages](https://adventofcode.com/2020/day/19)
+# [Day 20: Jurassic Jigsaw](https://adventofcode.com/2020/day/20)
 
 ## Part One
 
-You land in an airport surrounded by dense forest. As you walk to your high-speed train, the Elves at the Mythical Information Bureau contact you again. They think their satellite has collected an image of a sea monster! Unfortunately, the connection to the satellite is having problems, and many of the messages sent back from the satellite have been corrupted.
+The high-speed train leaves the forest and quickly carries you south. You can even see a desert in the distance! Since you have some spare time, you might as well see if there was anything interesting in the image the Mythical Information Bureau satellite captured.
 
-They sent you a list of the rules valid messages should obey and a list of received messages they've collected so far (your puzzle input).
+After decoding the satellite messages, you discover that the data actually contains many small images created by the satellite's camera array. The camera array consists of many cameras; rather than produce a single square image, they produce many smaller square image tiles that need to be reassembled back into a single image.
 
-The rules for valid messages (the top part of your puzzle input) are numbered and build upon each other. For example:
-```
-0: 1 2
-1: "a"
-2: 1 3 | 3 1
-3: "b"
-```
-Some rules, like 3: "b", simply match a single character (in this case, b).
+Each camera in the camera array returns a single monochrome image tile with a random unique ID number. The tiles (your puzzle input) arrived in a random order.
 
-The remaining rules list the sub-rules that must be followed; for example, the rule 0: 1 2 means that to match rule 0, the text being checked must match rule 1, and the text after the part that matched rule 1 must then match rule 2.
+Worse yet, the camera array appears to be malfunctioning: each image tile has been rotated and flipped to a random orientation. Your first task is to reassemble the original image by orienting the tiles so they fit together.
 
-Some of the rules have multiple lists of sub-rules separated by a pipe (|). This means that at least one list of sub-rules must match. (The ones that match might be different each time the rule is encountered.) For example, the rule 2: 1 3 | 3 1 means that to match rule 2, the text being checked must match rule 1 followed by rule 3 or it must match rule 3 followed by rule 1.
+To show how the tiles should be reassembled, each tile's image data includes a border that should line up exactly with its adjacent tiles. All tiles have this border, and the border lines up exactly when the tiles are both oriented correctly. Tiles at the edge of the image also have this border, but the outermost edges won't line up with any other tiles.
 
-Fortunately, there are no loops in the rules, so the list of possible matches will be finite. Since rule 1 matches a and rule 3 matches b, rule 2 matches either ab or ba. Therefore, rule 0 matches aab or aba.
+For example, suppose you have the following nine tiles:
 
-Here's a more interesting example:
-```
-0: 4 1 5
-1: 2 3 | 3 2
-2: 4 4 | 5 5
-3: 4 5 | 5 4
-4: "a"
-5: "b"
-```
-Here, because rule 4 matches a and rule 5 matches b, rule 2 matches two letters that are the same (aa or bb), and rule 3 matches two letters that are different (ab or ba).
+Tile 2311:
+..##.#..#.
+##..#.....
+#...##..#.
+####.#...#
+##.##.###.
+##...#.###
+.#.#.#..##
+..#....#..
+###...#.#.
+..###..###
 
-Since rule 1 matches rules 2 and 3 once each in either order, it must match two pairs of letters, one pair with matching letters and one pair with different letters. This leaves eight possibilities: aaab, aaba, bbab, bbba, abaa, abbb, baaa, or babb.
+Tile 1951:
+#.##...##.
+#.####...#
+.....#..##
+#...######
+.##.#....#
+.###.#####
+###.##.##.
+.###....#.
+..#.#..#.#
+#...##.#..
 
-Rule 0, therefore, matches a (rule 4), then any of the eight options from rule 1, then b (rule 5): aaaabb, aaabab, abbabb, abbbab, aabaab, aabbbb, abaaab, or ababbb.
+Tile 1171:
+####...##.
+#..##.#..#
+##.#..#.#.
+.###.####.
+..###.####
+.##....##.
+.#...####.
+#.##.####.
+####..#...
+.....##...
 
-The received messages (the bottom part of your puzzle input) need to be checked against the rules so you can determine which are valid and which are corrupted. Including the rules and the messages together, this might look like:
+Tile 1427:
+###.##.#..
+.#..#.##..
+.#.##.#..#
+#.#.#.##.#
+....#...##
+...##..##.
+...#.#####
+.#.####.#.
+..#..###.#
+..##.#..#.
 
-```
-0: 4 1 5
-1: 2 3 | 3 2
-2: 4 4 | 5 5
-3: 4 5 | 5 4
-4: "a"
-5: "b"
-```
-```
-ababbb
-bababa
-abbbab
-aaabbb
-aaaabbb
-```
-Your goal is to determine the number of messages that completely match rule 0. In the above example, ababbb and abbbab match, but bababa, aaabbb, and aaaabbb do not, producing the answer 2. The whole message must match all of rule 0; there can't be extra unmatched characters in the message. (For example, aaaabbb might appear to match rule 0 above, but it has an extra unmatched b on the end.)
+Tile 1489:
+##.#.#....
+..##...#..
+.##..##...
+..#...#...
+#####...#.
+#..#.#.#.#
+...#.#.#..
+##.#...##.
+..##.##.##
+###.##.#..
 
+Tile 2473:
+#....####.
+#..#.##...
+#.##..#...
+######.#.#
+.#...#.#.#
+.#########
+.###.#..#.
+########.#
+##...##.#.
+..###.#.#.
 
+Tile 2971:
+..#.#....#
+#...###...
+#.#.###...
+##.##..#..
+.#####..##
+.#..####.#
+#..#.#..#.
+..####.###
+..#.#.###.
+...#.#.#.#
+
+Tile 2729:
+...#.#.#.#
+####.#....
+..#.#.....
+....#..#.#
+.##..##.#.
+.#.####...
+####.#.#..
+##.####...
+##..#.##..
+#.##...##.
+
+Tile 3079:
+#.#.#####.
+.#..######
+..#.......
+######....
+####.#..#.
+.#...#.##.
+#.#####.##
+..#.###...
+..#.......
+..#.###...
+By rotating, flipping, and rearranging them, you can find a square arrangement that causes all adjacent borders to line up:
+
+#...##.#.. ..###..### #.#.#####.
+..#.#..#.# ###...#.#. .#..######
+.###....#. ..#....#.. ..#.......
+###.##.##. .#.#.#..## ######....
+.###.##### ##...#.### ####.#..#.
+.##.#....# ##.##.###. .#...#.##.
+#...###### ####.#...# #.#####.##
+.....#..## #...##..#. ..#.###...
+#.####...# ##..#..... ..#.......
+#.##...##. ..##.#..#. ..#.###...
+
+#.##...##. ..##.#..#. ..#.###...
+##..#.##.. ..#..###.# ##.##....#
+##.####... .#.####.#. ..#.###..#
+####.#.#.. ...#.##### ###.#..###
+.#.####... ...##..##. .######.##
+.##..##.#. ....#...## #.#.#.#...
+....#..#.# #.#.#.##.# #.###.###.
+..#.#..... .#.##.#..# #.###.##..
+####.#.... .#..#.##.. .######...
+...#.#.#.# ###.##.#.. .##...####
+
+...#.#.#.# ###.##.#.. .##...####
+..#.#.###. ..##.##.## #..#.##..#
+..####.### ##.#...##. .#.#..#.##
+#..#.#..#. ...#.#.#.. .####.###.
+.#..####.# #..#.#.#.# ####.###..
+.#####..## #####...#. .##....##.
+##.##..#.. ..#...#... .####...#.
+#.#.###... .##..##... .####.##.#
+#...###... ..##...#.. ...#..####
+..#.#....# ##.#.#.... ...##.....
+For reference, the IDs of the above tiles are:
+
+1951    2311    3079
+2729    1427    2473
+2971    1489    1171
+To check that you've assembled the image correctly, multiply the IDs of the four corner tiles together. If you do this with the assembled tiles from the example above, you get 1951 * 3079 * 2971 * 1171 = 20899048083289.
+
+Assemble the tiles into an image. What do you get if you multiply together the IDs of the four corner tiles?
 
 ## Part Two 
 
